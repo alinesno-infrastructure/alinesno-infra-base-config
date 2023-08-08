@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @version 1.0.0
  */
 @SuppressWarnings("serial")
-@TableName("operation_audit")
+@TableName("config_audit")
 public class ConfiguraAuditEntity extends InfraBaseEntity {
  
 	@TableField("account_id") // 用户ID

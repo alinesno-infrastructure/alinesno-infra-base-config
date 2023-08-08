@@ -1,10 +1,10 @@
 package com.alinesno.infra.base.config.entity;
 
-import java.time.LocalDateTime;
-
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDateTime;
 
 /**
  * 应用配置管理
@@ -13,39 +13,47 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @version 1.0.0
  */
 @SuppressWarnings("serial")
-@TableName("configura")
-public class ConfiguraEntity extends InfraBaseEntity {
+@TableName("configure")
+public class ConfigureEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")
 	private Long projectId ; //  所属项目
-  
-    // 环境
-    private String env;
 
-    // 名称
-    private String name;
+	// 环境
+	@TableField(value = "env")
+	private String env;
 
-    // 类型
-    private String type;
+	// 名称
+	@TableField(value = "name")
+	private String name;
 
-    // 内容
-    private String contents;
+	// 类型
+	@TableField(value = "type")
+	private String type;
 
-    // 标识
-    private String identity;
+	// 内容
+	@TableField(value = "contents")
+	private String contents;
 
-    // 备注
-    private String remarks;
+	// 标识
+	@TableField(value = "identity")
+	private String identity;
 
-    // 版本
-    private String version;
+	// 备注
+	@TableField(value = "remarks")
+	private String remarks;
 
-    // 生效时间
-    @TableField(value = "effective_time")
-    private LocalDateTime effectiveTime;
+	// 版本
+	@TableField(value = "version")
+	private String version;
 
-    // 密码
-    private String pwd;
+	// 生效时间
+	@TableField(value = "effective_time")
+	private LocalDateTime effectiveTime;
+
+	// 密码
+	@TableField(value = "pwd")
+	private String pwd;
 
 	public String getEnv() {
 		return env;

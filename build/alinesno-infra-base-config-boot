@@ -1,0 +1,19 @@
+2023-08-08T11:30:43.335+08:00  INFO 162712 --- [main] c.a.i.base.config.BaseConfigApplication  : Starting BaseConfigApplication using Java 17.0.8 with PID 162712 (/home/WUYING_luoandong_1788404793/git/alinesno-infra-base-config/alinesno-infra-base-config-boot/target/classes started by WUYING\luoandong_1788404793 in /home/WUYING_luoandong_1788404793/git/alinesno-infra-base-config)
+2023-08-08T11:30:43.338+08:00  INFO 162712 --- [main] c.a.i.base.config.BaseConfigApplication  : The following 3 profiles are active: "base", "mybatis", "dev"
+2023-08-08T11:30:45.208+08:00  INFO 162712 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-08-08T11:30:45.213+08:00  INFO 162712 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-08-08T11:30:45.261+08:00  INFO 162712 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 0 Redis repository interfaces.
+2023-08-08T11:30:46.905+08:00  WARN 162712 --- [main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2023-08-08T11:30:46.974+08:00  INFO 162712 --- [main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2023-08-08T11:30:46.976+08:00  INFO 162712 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3491 ms
+2023-08-08T11:30:49.311+08:00  INFO 162712 --- [main] org.redisson.Version                     : Redisson 3.20.1
+2023-08-08T11:30:49.624+08:00  INFO 162712 --- [redisson-netty-2-5] o.r.c.pool.MasterPubSubConnectionPool    : 1 connections initialized for 127.0.0.1/127.0.0.1:6379
+2023-08-08T11:30:49.736+08:00  INFO 162712 --- [redisson-netty-2-19] o.r.c.pool.MasterConnectionPool          : 24 connections initialized for 127.0.0.1/127.0.0.1:6379
+2023-08-08T11:30:50.493+08:00  INFO 162712 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-08-08T11:30:50.583+08:00  INFO 162712 --- [main] io.undertow                              : starting server: Undertow - 2.3.7.Final
+2023-08-08T11:30:50.599+08:00  INFO 162712 --- [main] org.xnio                                 : XNIO version 3.8.8.Final
+2023-08-08T11:30:50.613+08:00  INFO 162712 --- [main] org.xnio.nio                             : XNIO NIO Implementation Version 3.8.8.Final
+2023-08-08T11:30:50.729+08:00  INFO 162712 --- [main] org.jboss.threads                        : JBoss Threads version 3.5.0.Final
+2023-08-08T11:30:50.780+08:00  INFO 162712 --- [main] o.s.b.w.e.undertow.UndertowWebServer     : Undertow started on port(s) 30401 (http)
+2023-08-08T11:30:50.799+08:00  INFO 162712 --- [main] c.a.i.base.config.BaseConfigApplication  : Started BaseConfigApplication in 8.514 seconds (process running for 9.733)
+2023-08-08T12:03:47.935+08:00  INFO 162712 --- [SpringApplicationShutdownHook] io.undertow                              : stopping server: Undertow - 2.3.7.Final

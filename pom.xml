@@ -27,14 +27,15 @@
         <module>alinesno-infra-base-config-adapter</module> <!-- 适配层 -->
         <module>alinesno-infra-base-config-api</module>  <!-- 接口服务 -->
         <module>alinesno-infra-base-config-client</module>  <!-- 对外引用 -->
-        <module>alinesno-infra-base-config-boot</module>  <!-- 启动服务 --> 
-       
+        <module>alinesno-infra-base-config-boot</module>  <!-- 启动服务 -->
+        <module>alinesno-infra-base-config-agent</module>  <!-- Agent -->
+
         <!-- 前端服务
         <module>alinesno-infra-base-config-admin</module>
         -->
-         
-        <module>alinesno-infra-base-config-agent</module>  <!-- Agent -->
 
+        <!-- demo -->
+        <module>demo-config-simples</module>
     </modules>
 
 </project>

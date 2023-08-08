@@ -1,0 +1,2 @@
+org.springframework.boot.env.PropertySourceLoader=\
+    com.alinesno.infra.base.config.agent.InfraPropertySourceLoader

@@ -15,11 +15,11 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 /**
  * 用户操作记录和请求记录
  * 
- * @author WeiXiaoJin
+ * @author weixiaojin
  * @since 2019年4月8日 下午10:15:43
  */
 @SuppressWarnings("serial")
-@TableName("manager_account_record")
+@TableName("config_request_record")
 public class RequestRecordEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")

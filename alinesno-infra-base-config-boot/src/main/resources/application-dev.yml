@@ -1,0 +1,23 @@
+server:
+  port: 30401
+
+# spring 配置
+spring:
+  application:
+    name: alinesno-infra-base-config-boot
+  datasource:
+    driver-class-name: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/dev_alinesno_infra_base_config_v100?characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password:  aip@local
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: aip@local
+  devtools:
+    restart:
+      enabled: true
+
+sa-token:
+  is-print: false

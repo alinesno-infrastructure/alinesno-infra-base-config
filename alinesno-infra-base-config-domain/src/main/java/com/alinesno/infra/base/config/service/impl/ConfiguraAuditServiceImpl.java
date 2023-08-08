@@ -14,7 +14,7 @@ import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
  * 服务实现类
  * </p>
  *
- * @author WeiXiaoJin
+ * @author weixiaojin
  * @version 1.0.0
  */
 @Service

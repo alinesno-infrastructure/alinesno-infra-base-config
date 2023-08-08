@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @version 1.0.0
  */
 @SuppressWarnings("serial")
-@TableName("configura")
+@TableName("configura_history")
 public class ConfiguraHistoryEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")
