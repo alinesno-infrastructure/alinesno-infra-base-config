@@ -28,16 +28,8 @@ public class AsymmetricEncryption {
         return privateKey;
     }
 
-    public void setPrivateKey(PrivateKey privateKey) {
-        this.privateKey = privateKey;
-    }
-
     public PublicKey getPublicKey() {
         return publicKey;
-    }
-
-    public void setPublicKey(PublicKey publicKey) {
-        this.publicKey = publicKey;
     }
 
     /**
@@ -46,7 +38,7 @@ public class AsymmetricEncryption {
      */
     public void generateKeys() throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
+        keyPairGenerator.initialize(1024);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         privateKey = keyPair.getPrivate();
         publicKey = keyPair.getPublic();

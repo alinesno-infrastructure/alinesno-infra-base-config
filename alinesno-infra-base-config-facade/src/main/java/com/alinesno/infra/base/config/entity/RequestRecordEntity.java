@@ -66,11 +66,8 @@ public class RequestRecordEntity extends InfraBaseEntity {
 	@TableField("agent")
 	private String agent; // 浏览器信息
 
-	@TableField("create_time")
-	private Date createTime;
-
 	@TableField("account_id")
-	private String accountId;
+	private Long accountId;
 
 	@Excel(name = "登陆名")
 	@TableField("login_name")
@@ -170,23 +167,6 @@ public class RequestRecordEntity extends InfraBaseEntity {
 	public void setAgent(String agent) {
 		this.agent = agent;
 	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
-
 	public String getLoginName() {
 		return loginName;
 	}
@@ -211,4 +191,11 @@ public class RequestRecordEntity extends InfraBaseEntity {
 		this.rolePower = rolePower;
 	}
 
+	public Long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
+	}
 }

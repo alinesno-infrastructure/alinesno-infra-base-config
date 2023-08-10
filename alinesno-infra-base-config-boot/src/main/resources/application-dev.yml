@@ -6,10 +6,10 @@ spring:
   application:
     name: alinesno-infra-base-config-boot
   datasource:
-    driver-class-name: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dev_alinesno_infra_base_config_v100?characterEncoding=UTF-8&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
-    password:  aip@local
+    password:  adminer
   data:
     redis:
       host: 127.0.0.1

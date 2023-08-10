@@ -1,7 +1,11 @@
 package com.alinesno.infra.base.config.api.provider;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.config.api.aop.RequestRecord;
 import com.alinesno.infra.base.config.api.dto.ConfigureDto;
+import com.alinesno.infra.base.config.core.tools.AesEncryptionUtils;
+import com.alinesno.infra.base.config.core.tools.AsymmetricEncryption;
+import com.alinesno.infra.base.config.core.tools.EnctyptionUtils;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
@@ -28,19 +32,40 @@ public class ConfiguraRest {
     private IConfigureService configuraService;
 
     /**
+     * 根据用户登录信息获取公钥信息。
+     *
+     * 此方法用于根据用户的登录信息获取公钥。
+     *
+     * @param configCode 应用代码标识。
+     * @return 包含公钥的 AjaxResult 对象。
+     */
+    @GetMapping("/publicKey/{configCode}")
+    public AjaxResult getPublicKey(@PathVariable String configCode) {
+
+        // 根据提供的应用代码标识获取公钥
+        String publicKey = configuraService.getPublicKey(configCode);
+
+        return AjaxResult.success("操作成功" , publicKey);
+    }
+
+    /**
      * 获取指定配置的值
      *
      * @param configCode 配置ID
      * @return 配置值
      */
-    @RequestRecord
+    @RequestRecord(desc = "请求配置信息")
     @GetMapping("/configs/{configCode}")
-    public AjaxResult getConfig(@NotNull @PathVariable String configCode) {
-        // 实现获取指定配置的值的逻辑
+    public AjaxResult getConfig(@PathVariable String configCode) throws Exception {
 
+        // 实现获取指定配置的值的逻辑
         ConfigureDto dto = configuraService.getByCode(configCode) ;
 
-        return AjaxResult.success(dto) ;
+        // 配置加密
+        String ENCODE_KEY = "mysecretpassword" ;
+        String encryptedData = AesEncryptionUtils.encrypt(JSONObject.toJSONString(dto) , ENCODE_KEY) ;
+
+        return AjaxResult.success("操作成功" , encryptedData) ;
     }
 
     /**

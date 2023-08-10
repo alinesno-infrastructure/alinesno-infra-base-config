@@ -24,7 +24,7 @@ public class ConfigureEntity extends InfraBaseEntity {
 	private String env;
 
 	// 名称
-	@TableField(value = "name")
+	@TableField(value = "env_name")
 	private String name;
 
 	// 类型

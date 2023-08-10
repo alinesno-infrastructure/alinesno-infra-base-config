@@ -2,6 +2,7 @@ package com.alinesno.infra.base.config.api.aop;
 
 import com.alinesno.infra.base.config.entity.RequestRecordEntity;
 import com.alinesno.infra.base.config.service.IRequestRecordService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class RequestRecordAspect {
     @Autowired
     private IRequestRecordService requestRecordService ;
 
+    @Autowired
+    private HttpServletRequest request;
+
     private int requestCount = 0;
 
     @Pointcut("@annotation(com.alinesno.infra.base.config.api.aop.RequestRecord)")
@@ -38,12 +42,25 @@ public class RequestRecordAspect {
         String methodName = joinPoint.getSignature().getName();
         logger.info("调用接口方法：{}", methodName) ;
 
+        String desc = requestRecord.desc() ;
+
+        // 获取请求信息
+        String ip = request.getRemoteAddr();
+        String methodType = request.getMethod();
+        String url = request.getRequestURL().toString();
+        String userAgent = request.getHeader("User-Agent");
+
         // 保存用户请求记录
         RequestRecordEntity requestRecordEntity = new RequestRecordEntity();
         requestRecordEntity.setMethod(methodName);
+        requestRecordEntity.setMethodDesc(desc);
+        requestRecordEntity.setIp(ip);
+        requestRecordEntity.setRecordType(methodType);
+        requestRecordEntity.setUrl(url);
+        requestRecordEntity.setAgent(userAgent);
 
         // 设置其他请求记录的属性
-        requestRecordEntity.setCreateTime(new Date());
+        requestRecordEntity.setAddTime(new Date());
         requestRecordEntity.setAccountId(getAccountId());
         requestRecordEntity.setLoginName(getLoginName());
         requestRecordEntity.setAccountName(getAccountName());
@@ -65,11 +82,11 @@ public class RequestRecordAspect {
         logger.error("接口方法 {} 调用发生异常：{}", methodName, ex.getMessage());
     }
 
-    private String getAccountId() {
+    private Long getAccountId() {
         // 实现获取账户ID的逻辑
         // ...
 
-        return "";
+        return 0L ;
     }
 
     private String getLoginName() {

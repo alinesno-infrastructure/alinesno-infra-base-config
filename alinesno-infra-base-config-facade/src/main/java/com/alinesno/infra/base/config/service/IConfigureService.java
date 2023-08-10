@@ -34,4 +34,11 @@ public interface IConfigureService extends IBaseService<ConfigureEntity> {
      * @param configData 配置的 DTO 对象
      */
     void publishConfig(ConfigureDto configData);
+
+    /**
+     * 获取到公钥信息
+     * @param identity
+     * @return
+     */
+    String getPublicKey(String identity);
 }

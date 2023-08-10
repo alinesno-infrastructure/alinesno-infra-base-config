@@ -12,5 +12,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RequestRecord {
+
     // 可以添加一些注解参数，如日志级别、日志内容格式等
+
+    String desc() default "" ;
 }
