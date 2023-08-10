@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * TODO 还没有研究透，后面进一步优化
  * 分布式配置中心服务
  * 用于加载远程配置中心的属性并创建对应的 PropertySource
  *
