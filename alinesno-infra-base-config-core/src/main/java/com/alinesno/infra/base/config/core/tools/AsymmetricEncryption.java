@@ -1,4 +1,4 @@
-package com.alinesno.infra.base.config.agent.tools;
+package com.alinesno.infra.base.config.core.tools;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +17,28 @@ import java.util.Base64;
 public class AsymmetricEncryption {
     private PrivateKey privateKey;
     private PublicKey publicKey;
+
+    private static final AsymmetricEncryption encryption = new AsymmetricEncryption();
+
+    public static AsymmetricEncryption getInstance() {
+        return encryption ;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(PrivateKey privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(PublicKey publicKey) {
+        this.publicKey = publicKey;
+    }
 
     /**
      * 生成RSA密钥对。

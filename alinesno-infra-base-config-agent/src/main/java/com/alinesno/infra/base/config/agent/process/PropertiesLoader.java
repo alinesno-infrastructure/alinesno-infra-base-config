@@ -18,35 +18,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
-public class OriginTrackedPropertiesLoader {
+/**
+ * 参考Springboot properties Loader写法处理的加载器，用于properties文件的加载过程。
+ *
+ * @author luoxiaodong
+ * @version 1.0.0
+ */
+public class PropertiesLoader {
 
 	private final Resource resource;
 
-	/**
-	 * Create a new {@link OriginTrackedPropertiesLoader} instance.
-	 * @param resource the resource of the {@code .properties} data
-	 */
-	public OriginTrackedPropertiesLoader(Resource resource) {
+	public PropertiesLoader(Resource resource) {
 		Assert.notNull(resource, "Resource must not be null");
 		this.resource = resource;
 	}
 
-	/**
-	 * Load {@code .properties} data and return a list of documents.
-	 * @return the loaded properties
-	 * @throws IOException on read error
-	 */
 	public List<Document> load() throws IOException {
 		return load(true);
 	}
 
-	/**
-	 * Load {@code .properties} data and return a map of {@code String} ->
-	 * {@link OriginTrackedValue}.
-	 * @param expandLists if list {@code name[]=a,b,c} shortcuts should be expanded
-	 * @return the loaded properties
-	 * @throws IOException on read error
-	 */
 	List<Document> load(boolean expandLists) throws IOException {
 		List<Document> documents = new ArrayList<>();
 		Document document = new Document();
@@ -156,10 +146,6 @@ public class OriginTrackedPropertiesLoader {
 		return check.getAsBoolean();
 	}
 
-	/**
-	 * Reads characters from the source resource, taking care of skipping comments,
-	 * handling multi-line values and tracking {@code '\'} escapes.
-	 */
 	private static class CharacterReader implements Closeable {
 
 		private static final String[] ESCAPES = { "trnf", "\t\r\n\f" };
@@ -295,9 +281,6 @@ public class OriginTrackedPropertiesLoader {
 
 	}
 
-	/**
-	 * A single document within the properties file.
-	 */
 	public static class Document {
 
 		private final Map<String, OriginTrackedValue> values = new LinkedHashMap<>();

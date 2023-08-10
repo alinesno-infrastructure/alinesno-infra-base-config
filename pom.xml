@@ -23,6 +23,7 @@
 	<modules>
 		<!-- 应用服务 -->
         <module>alinesno-infra-base-config-facade</module>  <!-- 接口和引用 -->
+        <module>alinesno-infra-base-config-core</module>  <!-- 接口和引用 -->
         <module>alinesno-infra-base-config-domain</module>  <!-- 领域服务 -->
         <module>alinesno-infra-base-config-adapter</module> <!-- 适配层 -->
         <module>alinesno-infra-base-config-api</module>  <!-- 接口服务 -->

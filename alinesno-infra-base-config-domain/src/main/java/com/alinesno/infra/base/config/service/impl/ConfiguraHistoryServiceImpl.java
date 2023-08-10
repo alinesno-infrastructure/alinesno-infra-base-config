@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.alinesno.infra.base.config.entity.ConfiguraHistoryEntity;
+import com.alinesno.infra.base.config.entity.ConfigureHistoryEntity;
 import com.alinesno.infra.base.config.mapper.ConfiguraHistoryMapper;
 import com.alinesno.infra.base.config.service.IConfiguraHistoryService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -18,7 +18,7 @@ import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
  * @version 1.0.0
  */
 @Service
-public class ConfiguraHistoryServiceImpl extends IBaseServiceImpl<ConfiguraHistoryEntity, ConfiguraHistoryMapper> implements IConfiguraHistoryService {
+public class ConfiguraHistoryServiceImpl extends IBaseServiceImpl<ConfigureHistoryEntity, ConfiguraHistoryMapper> implements IConfiguraHistoryService {
 
 	// 日志记录
 	@SuppressWarnings("unused")

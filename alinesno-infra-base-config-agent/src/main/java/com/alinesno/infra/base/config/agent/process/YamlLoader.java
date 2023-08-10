@@ -1,19 +1,3 @@
-/*
- * Copyright 2012-2023 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.alinesno.infra.base.config.agent.process;
 
 import org.springframework.beans.factory.config.YamlProcessor;
@@ -26,7 +10,6 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.nodes.*;
@@ -40,17 +23,16 @@ import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 /**
- * Class to load {@code .yml} files into a map of {@code String} to
- * {@link OriginTrackedValue}.
+ * 参考Springboot yamlLoader写法处理的加载器，用于yaml文件的加载过程。
  *
- * @author Madhura Bhave
- * @author Phillip Webb
+ * @author luoxiaodong
+ * @version 1.0.0
  */
-public class OriginTrackedYamlLoader extends YamlProcessor {
+public class YamlLoader extends YamlProcessor {
 
 	private final Resource resource;
 
-	public OriginTrackedYamlLoader(Resource resource) {
+	public YamlLoader(Resource resource) {
 		this.resource = resource;
 		setResources(resource);
 	}
@@ -79,9 +61,6 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
 		return result;
 	}
 
-	/**
-	 * {@link Constructor} that tracks property origins.
-	 */
 	private class OriginTrackingConstructor extends SafeConstructor {
 
 		OriginTrackingConstructor(LoaderOptions loadingConfig) {
@@ -131,14 +110,11 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
 		private Origin getOrigin(Node node) {
 			Mark mark = node.getStartMark();
 			Location location = new Location(mark.getLine(), mark.getColumn());
-			return new TextResourceOrigin(OriginTrackedYamlLoader.this.resource, location);
+			return new TextResourceOrigin(YamlLoader.this.resource, location);
 		}
 
 	}
 
-	/**
-	 * {@link ScalarNode} that replaces the key node in a {@link NodeTuple}.
-	 */
 	private static class KeyScalarNode extends ScalarNode {
 
 		KeyScalarNode(ScalarNode node) {
@@ -160,9 +136,6 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
 
 	}
 
-	/**
-	 * {@link Resolver} that limits {@link Tag#TIMESTAMP} tags.
-	 */
 	private static class NoTimestampResolver extends Resolver {
 
 		@Override

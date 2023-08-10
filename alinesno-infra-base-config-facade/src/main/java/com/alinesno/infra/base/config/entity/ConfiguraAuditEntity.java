@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @SuppressWarnings("serial")
 @TableName("config_audit")
-public class ConfiguraAuditEntity extends InfraBaseEntity {
+public class ConfigureAuditEntity extends InfraBaseEntity {
  
 	@TableField("account_id") // 用户ID
 	private Long accountId;
