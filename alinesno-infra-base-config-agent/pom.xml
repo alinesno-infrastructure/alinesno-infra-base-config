@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-    <groupId>com.alinesno.infra.base</groupId>
-    <artifactId>alinesno-infra-base-config-parent</artifactId>
+		<groupId>com.alinesno.infra.base</groupId>
+		<artifactId>alinesno-infra-base-config-parent</artifactId>
 		<version>${revision}</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -13,32 +13,24 @@
 	<artifactId>alinesno-infra-base-config-agent</artifactId>
 	<packaging>jar</packaging>
 
+	<properties>
+		<jasypt.spring.boot.version>3.0.4</jasypt.spring.boot.version>
+	</properties>
+
 	<dependencies>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
+			<groupId>com.alinesno.infra.base</groupId>
+			<artifactId>alinesno-infra-base-config-core</artifactId>
+			<version>${revision}</version>
         </dependency>
 
 		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>${jasypt.spring.boot.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-all</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
-
-	</dependencies>
+    </dependencies>
 
 </project>

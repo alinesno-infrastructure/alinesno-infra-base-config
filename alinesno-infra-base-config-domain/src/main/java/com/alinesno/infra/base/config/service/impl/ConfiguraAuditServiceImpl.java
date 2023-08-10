@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.alinesno.infra.base.config.entity.ConfiguraAuditEntity;
+import com.alinesno.infra.base.config.entity.ConfigureAuditEntity;
 import com.alinesno.infra.base.config.mapper.ConfiguraAuditMapper;
 import com.alinesno.infra.base.config.service.IConfiguraAuditService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -18,7 +18,7 @@ import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
  * @version 1.0.0
  */
 @Service
-public class ConfiguraAuditServiceImpl extends IBaseServiceImpl<ConfiguraAuditEntity, ConfiguraAuditMapper> implements IConfiguraAuditService {
+public class ConfiguraAuditServiceImpl extends IBaseServiceImpl<ConfigureAuditEntity, ConfiguraAuditMapper> implements IConfiguraAuditService {
 
 	// 日志记录
 	@SuppressWarnings("unused")

@@ -1,8 +1,5 @@
 package com.alinesno.infra.base.config.agent.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-
 /**
  * 代理配置属性类
  * 用于配置代理相关的属性
@@ -69,17 +66,15 @@ import org.springframework.context.annotation.Configuration;
  * @author luoxiaodong
  * @version 1.0.0
  */
-@Configuration
-@ConfigurationProperties(prefix = "alinesno.ops.configure")
 public class AgentProperties {
 
     // 属性和方法
     private String appCode;
     private String identity;
-    private boolean enabled = true;
+    private boolean enabled = false;
     private String configHost;
     private String profile ;
-    private boolean override = false ;
+    private boolean override = true ;
     private String publicKey ;
     private String jasyptKey ;
 
