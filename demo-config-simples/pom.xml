@@ -22,6 +22,11 @@
 			<artifactId>alinesno-infra-base-config-agent</artifactId>
 			<version>${revision}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alinesno.infra.common</groupId>
+			<artifactId>alinesno-infra-common-config</artifactId>
+			<version>${revision}</version>
+		</dependency>
 		<!-- config-agent_end -->
 
 		<dependency>

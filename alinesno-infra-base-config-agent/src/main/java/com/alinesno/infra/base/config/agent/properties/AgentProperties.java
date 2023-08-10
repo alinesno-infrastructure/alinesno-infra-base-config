@@ -74,19 +74,38 @@ import org.springframework.context.annotation.Configuration;
 public class AgentProperties {
 
     // 属性和方法
-
-    private String[] fileType = {
-            "yml",
-            "yaml",
-            "properties"
-    };
-
     private String appCode;
     private String identity;
-    private boolean enabled;
+    private boolean enabled = true;
     private String configHost;
-
     private String profile ;
+    private boolean override = false ;
+    private String publicKey ;
+    private String jasyptKey ;
+
+    public boolean isOverride() {
+        return override;
+    }
+
+    public void setOverride(boolean override) {
+        this.override = override;
+    }
+
+    public String getJasyptKey() {
+        return jasyptKey;
+    }
+
+    public void setJasyptKey(String jasyptKey) {
+        this.jasyptKey = jasyptKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
 
     public String getProfile() {
         return profile;
@@ -94,24 +113,6 @@ public class AgentProperties {
 
     public void setProfile(String profile) {
         this.profile = profile;
-    }
-
-    /**
-     * 获取文件类型数组
-     *
-     * @return 文件类型数组
-     */
-    public String[] getFileType() {
-        return fileType;
-    }
-
-    /**
-     * 设置文件类型数组
-     *
-     * @param fileType 文件类型数组
-     */
-    public void setFileType(String[] fileType) {
-        this.fileType = fileType;
     }
 
     /**

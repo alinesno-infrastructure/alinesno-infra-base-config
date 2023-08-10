@@ -1,0 +1,16 @@
+#spring:
+#  application:
+#    name: demo-config-simples
+
+alinesno.ops:
+  configure:
+    file-type:
+      - yml
+      - properties
+      - yaml
+    app-code: alinesno-infra-base-ocnfig-demo
+    identity: admin
+    enabled: true
+    config-host: http://localhost:8080
+    public-key: admin
+    jasypt-key: admin
