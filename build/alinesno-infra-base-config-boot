@@ -7542,7 +7542,7 @@ alinesno:
 2023-08-10T23:05:45.014+08:00 ERROR 41560 --- [XNIO-1 task-2] c.a.i.b.c.api.aop.RequestRecordAspect    : 接口方法 publishConfig 调用发生异常：
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
@@ -7552,7 +7552,7 @@ alinesno:
 jakarta.servlet.ServletException: Request processing failed: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
@@ -7613,7 +7613,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 Caused by: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'public_key' at row 1
@@ -7791,7 +7791,7 @@ alinesno:
 2023-08-10T23:06:11.903+08:00 ERROR 41560 --- [XNIO-1 task-2] c.a.i.b.c.api.aop.RequestRecordAspect    : 接口方法 publishConfig 调用发生异常：
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -7801,7 +7801,7 @@ alinesno:
 jakarta.servlet.ServletException: Request processing failed: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -7862,7 +7862,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 Caused by: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8040,7 +8040,7 @@ alinesno:
 2023-08-10T23:06:31.474+08:00 ERROR 41560 --- [XNIO-1 task-2] c.a.i.b.c.api.aop.RequestRecordAspect    : 接口方法 publishConfig 调用发生异常：
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8050,7 +8050,7 @@ alinesno:
 jakarta.servlet.ServletException: Request processing failed: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8111,7 +8111,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 Caused by: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8320,7 +8320,7 @@ alinesno:
 2023-08-10T23:07:00.599+08:00 ERROR 41830 --- [XNIO-1 task-2] c.a.i.b.c.api.aop.RequestRecordAspect    : 接口方法 publishConfig 调用发生异常：
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8330,7 +8330,7 @@ alinesno:
 jakarta.servlet.ServletException: Request processing failed: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
@@ -8391,7 +8391,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 Caused by: org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1
 ### The error may exist in com/alinesno/infra/base/config/mapper/ConfigureKeyapper.java (best guess)
-### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyapper.insert-Inline
+### The error may involve com.alinesno.infra.base.config.mapper.ConfigureKeyMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: INSERT INTO config_key  ( id, public_key, private_key,  identity, has_delete,    tenant_id,    add_time,  has_status )  VALUES  ( ?, ?, ?,  ?, ?,    ?,    ?,  ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'private_key' at row 1

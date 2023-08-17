@@ -1,6 +1,6 @@
 package com.alinesno.infra.base.config.service;
 
-import com.alinesno.infra.base.config.entity.ConfiguraHistoryEntity;
+import com.alinesno.infra.base.config.entity.ConfigureHistoryEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 /**
@@ -9,6 +9,6 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * @author LuoXiaoDong
  * @version 1.0.0
  */
-public interface IConfiguraHistoryService extends IBaseService<ConfiguraHistoryEntity> {
+public interface IConfigureHistoryService extends IBaseService<ConfigureHistoryEntity> {
 
 }

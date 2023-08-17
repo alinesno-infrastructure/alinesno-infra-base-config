@@ -1,7 +1,7 @@
 package com.alinesno.infra.base.config.service.impl;
 
 import com.alinesno.infra.base.config.entity.ConfigureKeyEntity;
-import com.alinesno.infra.base.config.mapper.ConfigureKeyapper;
+import com.alinesno.infra.base.config.mapper.ConfigureKeyMapper;
 import com.alinesno.infra.base.config.service.IConfigureKeyService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0.0
  */
 @Service
-public class ConfigureKeyServiceImpl extends IBaseServiceImpl<ConfigureKeyEntity, ConfigureKeyapper> implements IConfigureKeyService {
+public class ConfigureKeyServiceImpl extends IBaseServiceImpl<ConfigureKeyEntity, ConfigureKeyMapper> implements IConfigureKeyService {
 
 	// 日志记录
 	@SuppressWarnings("unused")

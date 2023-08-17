@@ -5,7 +5,7 @@ import com.alinesno.infra.base.config.api.dto.ConfigureDto;
 import com.alinesno.infra.base.config.core.tools.AsymmetricEncryption;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.entity.ConfigureKeyEntity;
-import com.alinesno.infra.base.config.mapper.ConfiguraMapper;
+import com.alinesno.infra.base.config.mapper.ConfigureMapper;
 import com.alinesno.infra.base.config.service.IConfigureKeyService;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -35,7 +35,7 @@ import java.util.Base64;
  * @version 1.0.0
  */
 @Service
-public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, ConfiguraMapper> implements IConfigureService {
+public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, ConfigureMapper> implements IConfigureService {
 
 	// 日志记录
 	private static final Logger log = LoggerFactory.getLogger(ConfigureServiceImpl.class);

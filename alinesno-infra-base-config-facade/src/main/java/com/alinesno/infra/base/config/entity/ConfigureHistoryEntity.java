@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @version 1.0.0
  */
 @SuppressWarnings("serial")
-@TableName("configura_history")
-public class ConfiguraHistoryEntity extends ConfigureEntity {
+@TableName("configure_history")
+public class ConfigureHistoryEntity extends ConfigureEntity {
 
 
 
