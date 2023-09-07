@@ -8,7 +8,7 @@ alinesno.ops:
       - yml
       - properties
       - yaml
-    app-code: alinesno-infra-base-ocnfig-demo
+    app-code: alinesno-infra-base-config-demo
     identity: admin
     enabled: true
     config-host: http://localhost:8080

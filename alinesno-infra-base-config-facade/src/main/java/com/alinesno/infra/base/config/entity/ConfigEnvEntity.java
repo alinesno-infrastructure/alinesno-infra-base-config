@@ -13,7 +13,7 @@ import java.util.Date;
  * @author luoxiaodong
  * @version 1.0.0
  */
-@TableName("config_environment")
+@TableName("config_env")
 public class ConfigEnvEntity extends InfraBaseEntity {
     /**
      * 环境名称

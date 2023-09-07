@@ -1,5 +1,5 @@
 server:
-  port: 30401
+  port: 30102
 
 # spring 配置
 spring:
