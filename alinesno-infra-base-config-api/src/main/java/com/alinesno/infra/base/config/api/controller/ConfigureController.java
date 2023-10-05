@@ -3,9 +3,9 @@ package com.alinesno.infra.base.config.api.controller;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
-import com.alinesno.infra.common.core.rest.BaseController;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -50,7 +50,7 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-        return this.toDataInfo(model, this.getFeign(), page);
+        return this.toPage(model, this.getFeign(), page);
     }
 
     @Override
