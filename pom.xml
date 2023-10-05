@@ -35,8 +35,9 @@
         <module>alinesno-infra-base-config-admin</module>
         -->
 
-        <!-- demo -->
+        <!-- demo
         <module>demo-config-simples</module>
+        -->
     </modules>
 
 </project>
