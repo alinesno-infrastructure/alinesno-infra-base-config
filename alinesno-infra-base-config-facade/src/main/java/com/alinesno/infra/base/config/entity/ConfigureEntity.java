@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.config.entity;
 
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,117 +17,65 @@ import java.time.LocalDateTime;
  */
 @SuppressWarnings("serial")
 @TableName("configure")
+@Data
 public class ConfigureEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")
+	@ColumnType(length=255)
+	@ColumnComment("应用配置管理")
 	private Long projectId ; //  所属项目
 
 	// 环境
 	@TableField(value = "env")
+	@ColumnType(length=255)
+	@ColumnComment("env")
 	private String env;
 
 	// 名称
 	@TableField(value = "env_name")
+	@ColumnType(length=255)
+	@ColumnComment("name")
 	private String name;
 
 	// 类型
 	@TableField(value = "type")
+	@ColumnType(length=255)
+	@ColumnComment("type")
 	private String type;
 
 	// 内容
 	@TableField(value = "contents")
+	@ColumnType(length=255)
+	@ColumnComment("contents")
 	private String contents;
 
 	// 标识
 	@TableField(value = "identity")
+	@ColumnType(length=255)
+	@ColumnComment("identity")
 	private String identity;
 
 	// 备注
 	@TableField(value = "remarks")
+	@ColumnType(length=255)
+	@ColumnComment("remarks")
 	private String remarks;
 
 	// 版本
 	@TableField(value = "version")
+	@ColumnType(length=255)
+	@ColumnComment("version")
 	private String version;
 
 	// 生效时间
 	@TableField(value = "effective_time")
+	@ColumnType(length=255)
+	@ColumnComment("effectiveTime")
 	private LocalDateTime effectiveTime;
 
 	// 密码
 	@TableField(value = "pwd")
+	@ColumnType(length=255)
+	@ColumnComment("pwd")
 	private String pwd;
-
-	public String getEnv() {
-		return env;
-	}
-
-	public void setEnv(String env) {
-		this.env = env;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getContents() {
-		return contents;
-	}
-
-	public void setContents(String contents) {
-		this.contents = contents;
-	}
-
-	public String getIdentity() {
-		return identity;
-	}
-
-	public void setIdentity(String identity) {
-		this.identity = identity;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public LocalDateTime getEffectiveTime() {
-		return effectiveTime;
-	}
-
-	public void setEffectiveTime(LocalDateTime effectiveTime) {
-		this.effectiveTime = effectiveTime;
-	}
-
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
- 
 }

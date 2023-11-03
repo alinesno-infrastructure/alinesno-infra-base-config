@@ -1,6 +1,10 @@
 package com.alinesno.infra.base.config.entity;
 
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -14,116 +18,56 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @SuppressWarnings("serial")
 @TableName("configure_audit")
+@Data
 public class ConfigureAuditEntity extends InfraBaseEntity {
  
 	@TableField("account_id") // 用户ID
+	@ColumnType(length=255)
+	@ColumnComment("accountId")
 	private Long accountId;
 
 	@TableField("username") // 用户名
+	@ColumnType(length=255)
+	@ColumnComment("用户名")
 	private String username;
 
 	@TableField("operation_type") // 操作类型
+	@ColumnType(length=255)
+	@ColumnComment("操作类型")
 	private String operationType;
 
 	@TableField("operation_time") // 操作时间
+	@ColumnType(length=255)
+	@ColumnComment("操作时间")
 	private LocalDateTime operationTime;
 
 	@TableField("operation_description") // 操作描述
+	@ColumnType(length=255)
+	@ColumnComment("操作描述")
 	private String operationDescription;
 
 	@TableField("operation_details") // 操作详情
+	@ColumnType(length=255)
+	@ColumnComment("operationDetails")
 	private String operationDetails;
 
 	@TableField("ip_address") // IP地址
+	@ColumnType(length=255)
+	@ColumnComment("ipAddress")
 	private String ipAddress;
 
 	@TableField("device_info") // 设备信息
+	@ColumnType(length=255)
+	@ColumnComment("deviceInfo")
 	private String deviceInfo;
 
 	@TableField("geolocation") // 地理位置
+	@ColumnType(length=255)
+	@ColumnComment("geolocation")
 	private String geolocation;
 
 	@TableField("create_time") // 创建时间
-	private LocalDateTime createTime;
-
-	public Long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getOperationType() {
-		return operationType;
-	}
-
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
-	}
-
-	public LocalDateTime getOperationTime() {
-		return operationTime;
-	}
-
-	public void setOperationTime(LocalDateTime operationTime) {
-		this.operationTime = operationTime;
-	}
-
-	public String getOperationDescription() {
-		return operationDescription;
-	}
-
-	public void setOperationDescription(String operationDescription) {
-		this.operationDescription = operationDescription;
-	}
-
-	public String getOperationDetails() {
-		return operationDetails;
-	}
-
-	public void setOperationDetails(String operationDetails) {
-		this.operationDetails = operationDetails;
-	}
-
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-
-	public String getDeviceInfo() {
-		return deviceInfo;
-	}
-
-	public void setDeviceInfo(String deviceInfo) {
-		this.deviceInfo = deviceInfo;
-	}
-
-	public String getGeolocation() {
-		return geolocation;
-	}
-
-	public void setGeolocation(String geolocation) {
-		this.geolocation = geolocation;
-	}
-
-	public LocalDateTime getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(LocalDateTime createTime) {
-		this.createTime = createTime;
-	}
-
+	@ColumnType(length=255)
+	@ColumnComment("createTime")
+	private Date createTime;
 }

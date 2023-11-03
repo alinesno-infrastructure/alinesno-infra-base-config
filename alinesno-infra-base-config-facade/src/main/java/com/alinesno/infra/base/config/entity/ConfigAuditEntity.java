@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.config.entity;
 import java.util.Date;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -13,6 +16,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @SuppressWarnings("serial")
 @TableName("config_audit")
+@Data
 public class ConfigAuditEntity extends InfraBaseEntity {
  
 
@@ -20,201 +24,79 @@ public class ConfigAuditEntity extends InfraBaseEntity {
      * 配置项名称
      */
     @TableField("item_name")
+	@ColumnType(length=255)
+	@ColumnComment("配置项名称")
     private String itemName;
 
     /**
      * 变更内容
      */
     @TableField("changes")
+	@ColumnType(length=255)
+	@ColumnComment("变更内容")
     private String changes;
 
     /**
      * 邮箱
      */
     @TableField("email")
+	@ColumnType(length=255)
+	@ColumnComment("邮箱")
     private String email;
 
     /**
      * 发送时间
      */
     @TableField("send_time")
+	@ColumnType(length=19)
+	@ColumnComment("发送时间")
     private Date sendTime;
 
     /**
      * 变更人
      */
     @TableField("changer")
+	@ColumnType(length=255)
+	@ColumnComment("变更人")
     private String changer;
 
     /**
      * 变更类型
      */
     @TableField("change_type")
+	@ColumnType(length=10)
+	@ColumnComment("变更类型")
     private String changeType;
 
     /**
      * 变更来源
      */
     @TableField("change_source")
+	@ColumnType(length=255)
+	@ColumnComment("变更来源")
     private String changeSource;
 
     /**
      * 相关应用
      */
     @TableField("related_app")
+	@ColumnType(length=255)
+	@ColumnComment("相关应用")
     private String relatedApp;
 
     /**
      * 相关环境
      */
     @TableField("related_env")
+	@ColumnType(length=50)
+	@ColumnComment("相关环境")
     private String relatedEnv;
 
     /**
      * 变更描述
      */
     @TableField("change_description")
+	@ColumnType(length=255)
+	@ColumnComment("变更描述")
     private String changeDescription;
-
-    // Getters and Setters
-  
-    /**
-     * 获取配置项名称
-     */
-    public String getItemName() {
-        return itemName;
-    }
-
-    /**
-     * 设置配置项名称
-     */
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    /**
-     * 获取变更内容
-     */
-    public String getChanges() {
-        return changes;
-    }
-
-    /**
-     * 设置变更内容
-     */
-    public void setChanges(String changes) {
-        this.changes = changes;
-    }
-
-    /**
-     * 获取邮箱
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 设置邮箱
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 获取发送时间
-     */
-    public Date getSendTime() {
-        return sendTime;
-    }
-
-    /**
-     * 设置发送时间
-     */
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
-    }
-
-    /**
-     * 获取变更人
-     */
-    public String getChanger() {
-        return changer;
-    }
-
-    /**
-     * 设置变更人
-     */
-    public void setChanger(String changer) {
-        this.changer = changer;
-    }
-
-    /**
-     * 获取变更类型
-     */
-    public String getChangeType() {
-        return changeType;
-    }
-
-    /**
-     * 设置变更类型
-     */
-    public void setChangeType(String changeType) {
-        this.changeType = changeType;
-    }
-
-    /**
-     * 获取变更来源
-     */
-    public String getChangeSource() {
-        return changeSource;
-    }
-
-    /**
-     * 设置变更来源
-     */
-    public void setChangeSource(String changeSource) {
-        this.changeSource = changeSource;
-    }
-
-    /**
-     * 获取相关应用
-     */
-    public String getRelatedApp() {
-        return relatedApp;
-    }
-
-    /**
-     * 设置相关应用
-     */
-    public void setRelatedApp(String relatedApp) {
-        this.relatedApp = relatedApp;
-    }
-
-    /**
-     * 获取相关环境
-     */
-    public String getRelatedEnv() {
-        return relatedEnv;
-    }
-
-    /**
-     * 设置相关环境
-     */
-    public void setRelatedEnv(String relatedEnv) {
-        this.relatedEnv = relatedEnv;
-    }
-
-    /**
-     * 获取变更描述
-     */
-    public String getChangeDescription() {
-        return changeDescription;
-    }
-
-    /**
-     * 设置变更描述
-     */
-    public void setChangeDescription(String changeDescription) {
-        this.changeDescription = changeDescription;
-    }
 }

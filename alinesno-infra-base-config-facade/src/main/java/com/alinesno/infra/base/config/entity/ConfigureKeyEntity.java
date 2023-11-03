@@ -1,5 +1,8 @@
 package com.alinesno.infra.base.config.entity;
 
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -15,61 +18,38 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @SuppressWarnings("serial")
 @TableName("configure_key")
+@Data
 public class ConfigureKeyEntity extends InfraBaseEntity {
 
     /**
      * 应用公钥
      */
     @TableField("public_key")
+	@ColumnType(length=255)
+	@ColumnComment("应用公钥")
     private String publicKey;
 
     /**
      * 应用密钥
      */
     @TableField("private_key")
+	@ColumnType(length=255)
+	@ColumnComment("privateKey")
     private String privateKey;
 
     /**
      * 关联的用户ID
      */
     @TableField("user_id")
+	@ColumnType(length=255)
+	@ColumnComment("关联的用户ID")
     private Integer userId;
 
     /**
      * 应用代码标识，唯一
      */
     @TableField(value = "identity")
+	@ColumnType(length=255)
+	@ColumnComment("应用代码标识，唯一")
     private String identity;
-
-    public String getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
-    }
-
-    public String getPrivateKey() {
-        return privateKey;
-    }
-
-    public void setPrivateKey(String privateKey) {
-        this.privateKey = privateKey;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getIdentity() {
-        return identity;
-    }
-
-    public void setIdentity(String identity) {
-        this.identity = identity;
-    }
 }
