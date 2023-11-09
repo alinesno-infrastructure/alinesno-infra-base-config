@@ -23,7 +23,7 @@ public class ConfigureAuditEntity extends InfraBaseEntity {
  
 	@TableField("account_id") // 用户ID
 	@ColumnType(length=255)
-	@ColumnComment("accountId")
+	@ColumnComment("用户ID")
 	private Long accountId;
 
 	@TableField("username") // 用户名
@@ -48,26 +48,26 @@ public class ConfigureAuditEntity extends InfraBaseEntity {
 
 	@TableField("operation_details") // 操作详情
 	@ColumnType(length=255)
-	@ColumnComment("operationDetails")
+	@ColumnComment("操作详情")
 	private String operationDetails;
 
 	@TableField("ip_address") // IP地址
 	@ColumnType(length=255)
-	@ColumnComment("ipAddress")
+	@ColumnComment("IP地址")
 	private String ipAddress;
 
 	@TableField("device_info") // 设备信息
 	@ColumnType(length=255)
-	@ColumnComment("deviceInfo")
+	@ColumnComment("设备信息")
 	private String deviceInfo;
 
 	@TableField("geolocation") // 地理位置
 	@ColumnType(length=255)
-	@ColumnComment("geolocation")
+	@ColumnComment("地理位置")
 	private String geolocation;
 
 	@TableField("create_time") // 创建时间
 	@ColumnType(length=255)
-	@ColumnComment("createTime")
+	@ColumnComment("创建时间")
 	private Date createTime;
 }

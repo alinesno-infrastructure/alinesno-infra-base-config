@@ -28,30 +28,30 @@ public class RequestRecordEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")
 	@ColumnType(length=255)
-	@ColumnComment("用户操作记录和请求记录")
+	@ColumnComment("所属项目")
 	private Long projectId ; //  所属项目
   
 	@TableField(value = "config_id")
 	@ColumnType(length=255)
-	@ColumnComment("configI")
+	@ColumnComment("所属配置")
 	private Long configId ; //  所属配置
 	
 	/* @Excel(name = "操作说明") */
-	@TableField
+	@TableField("operation")
 	@ColumnType(length=255)
-	@ColumnComment("operation")
+	@ColumnComment("操作说明")
 	private String operation;
 
 	@Excel(name = "执行时间")
 	@TableField("method_time")
 	@ColumnType(length=255)
-	@ColumnComment("methodTime")
+	@ColumnComment("执行时间")
 	private long methodTime;
 
 	@Excel(name = "类方法")
 	@TableField("method")
 	@ColumnType(length=255)
-	@ColumnComment("method")
+	@ColumnComment("类方法")
 	private String method;
 
 	@Excel(name = "请求参数")
@@ -59,37 +59,37 @@ public class RequestRecordEntity extends InfraBaseEntity {
 	@TableField("params")
 	@Basic(fetch = FetchType.LAZY)
 	@ColumnType(length=255)
-	@ColumnComment("params")
+	@ColumnComment("请求参数")
 	private String params;
 
 	@Excel(name = "方法描述")
 	@TableField("method_desc")
 	@ColumnType(length=255)
-	@ColumnComment("methodDesc")
+	@ColumnComment("方法描述")
 	private String methodDesc;
 
 	@Excel(name = "请求记录")
 	@TableField("record_type")
 	@ColumnType(length=255)
-	@ColumnComment("recordType")
+	@ColumnComment("记录类型")
 	private String recordType; // 记录类型
 
 	@Excel(name = "服务器IP")
 	@TableField("ip")
 	@ColumnType(length=255)
-	@ColumnComment("ip")
+	@ColumnComment("服务器IP")
 	private String ip; // 服务器ip
 
 	@Excel(name = "请求链接")
 	@TableField("url")
 	@ColumnType(length=255)
-	@ColumnComment("url")
+	@ColumnComment("请求链接")
 	private String url; // 请求链接
 
 	@Excel(name = "浏览器信息")
 	@TableField("agent")
 	@ColumnType(length=255)
-	@ColumnComment("agent")
+	@ColumnComment("浏览器信息")
 	private String agent; // 浏览器信息
 
 	@TableField("account_id")
@@ -100,13 +100,13 @@ public class RequestRecordEntity extends InfraBaseEntity {
 	@Excel(name = "登陆名")
 	@TableField("login_name")
 	@ColumnType(length=255)
-	@ColumnComment("loginName")
+	@ColumnComment("登陆名")
 	private String loginName;
 
 	@Excel(name = "用户名")
 	@TableField("account_name")
 	@ColumnType(length=255)
-	@ColumnComment("accountName")
+	@ColumnComment("用户名")
 	private String accountName;
 
 	@TableField("role_power")

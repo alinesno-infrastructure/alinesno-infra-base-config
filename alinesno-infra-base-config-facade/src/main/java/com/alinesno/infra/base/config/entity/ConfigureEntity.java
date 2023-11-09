@@ -22,7 +22,7 @@ public class ConfigureEntity extends InfraBaseEntity {
 	
 	@TableField(value = "project_id")
 	@ColumnType(length=255)
-	@ColumnComment("应用配置管理")
+	@ColumnComment("所属项目")
 	private Long projectId ; //  所属项目
 
 	// 环境
