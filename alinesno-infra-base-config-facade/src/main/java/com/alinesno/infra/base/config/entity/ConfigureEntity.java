@@ -2,6 +2,7 @@ package com.alinesno.infra.base.config.entity;
 
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -45,7 +46,7 @@ public class ConfigureEntity extends InfraBaseEntity {
 
 	// 内容
 	@TableField(value = "contents")
-	@ColumnType(length=255)
+	@ColumnType(MySqlTypeConstant.TEXT)
 	@ColumnComment("contents")
 	private String contents;
 
