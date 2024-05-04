@@ -1,18 +1,26 @@
 package com.alinesno.infra.base.config.api.provider;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alinesno.infra.base.config.api.aop.RequestRecord;
+import com.alinesno.infra.base.config.api.dto.ConfigurationRequest;
 import com.alinesno.infra.base.config.api.dto.ConfigureDto;
 import com.alinesno.infra.base.config.core.tools.AesEncryptionUtils;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
+import com.alinesno.infra.base.config.entity.ProjectEntity;
+import com.alinesno.infra.base.config.enums.ConfigTypeEnum;
 import com.alinesno.infra.base.config.service.IConfigureService;
+import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,10 +32,57 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/v1/api/base/config")
-public class ConfiguraRest {
+public class ConfiguraController {
 
     @Autowired
     private IConfigureService configuraService;
+
+    @Resource
+    private IConfigureService appConfigsService;
+
+    @Resource
+    private IProjectService appsService;
+
+    @RequestRecord
+    @GetMapping("/getConfig")
+    public AjaxResult getConfig(ConfigurationRequest configurationRequest){
+        if(ObjectUtil.isNull(configurationRequest) || ObjectUtil.isNull(configurationRequest.getIdentity())
+                || ObjectUtil.isNull(configurationRequest.getOpenId())){
+            return AjaxResult.error("请求参数缺失");
+        }
+
+        String openId = configurationRequest.getOpenId();
+        List<ProjectEntity> appEntityList = appsService.list(new LambdaQueryWrapper<ProjectEntity>().eq(ProjectEntity::getOpenKey,openId));
+
+        if(CollectionUtil.isEmpty(appEntityList)){
+            return AjaxResult.error("不存在的应用");
+        }
+
+        ProjectEntity app = appEntityList.get(0);
+
+        LambdaQueryWrapper<ConfigureEntity> wrapper = new LambdaQueryWrapper<>();
+
+        wrapper.eq(ConfigureEntity::getProjectId , app.getId());
+        wrapper.eq(ConfigureEntity::getIdentity, configurationRequest.getIdentity());
+
+        List<ConfigureEntity> entityList = appConfigsService.list(wrapper);
+
+        if(CollectionUtil.isEmpty(entityList)){
+            return AjaxResult.error("无此配置或者该配置已被清理");
+        }
+
+        ConfigureEntity entity = entityList.get(0);
+        if(entity.getType() != 1 && entity.getType() != 2) {
+            return AjaxResult.error("数据错误，不存在的类型");
+        }
+
+        cn.hutool.json.JSONObject jsonObject = new cn.hutool.json.JSONObject();
+        jsonObject.set("type", Arrays.stream(ConfigTypeEnum.values()).filter(item -> item.getCode() == entity.getType()) .toList().get(0).getType());
+        jsonObject.set("content", entity.getContents());
+
+
+        return AjaxResult.success("获取远程配置成功", jsonObject);
+    }
 
     /**
      * 根据用户登录信息获取公钥信息。

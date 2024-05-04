@@ -6,6 +6,7 @@ import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.EqualsAndHashCode;
 
 /**
  * Project Entity
@@ -13,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author LuoXiaoDong
  * @version 1.0.0
  */
-@SuppressWarnings("serial")
+@EqualsAndHashCode(callSuper = true)
 @TableName("project")
 @Data
 public class ProjectEntity extends InfraBaseEntity {

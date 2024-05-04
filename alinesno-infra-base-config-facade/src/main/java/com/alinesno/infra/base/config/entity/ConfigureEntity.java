@@ -40,9 +40,9 @@ public class ConfigureEntity extends InfraBaseEntity {
 
 	// 类型
 	@TableField(value = "type")
-	@ColumnType(length=255)
+	@ColumnType(length=1)
 	@ColumnComment("type")
-	private String type;
+	private int type;
 
 	// 内容
 	@TableField(value = "contents")

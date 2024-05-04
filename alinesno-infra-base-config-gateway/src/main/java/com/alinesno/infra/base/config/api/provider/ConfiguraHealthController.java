@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/v1/api/base/config/health")
-public class ConfiguraHealthRest {
+public class ConfiguraHealthController {
 
     /**
      * 查询指定实例的健康状态

@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/v1/api/base/config/env")
-public class ConfiguraEnvRest {
+public class ConfiguraEnvController {
 
     @Autowired
     private IConfigEnvService configEnvService ;
