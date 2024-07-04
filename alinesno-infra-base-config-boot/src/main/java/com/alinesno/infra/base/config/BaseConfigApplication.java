@@ -12,10 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author luoxiaodong
  * @version 1.0.0
  */
-@EnableActable
-@EnableInfraSsoApi
 @SpringBootApplication
-@MapperScan("com.alinesno.infra.base.config.mapper")
 public class BaseConfigApplication {
 
 	public static void main(String[] args) {

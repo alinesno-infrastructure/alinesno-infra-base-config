@@ -5,9 +5,12 @@ import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  * @author luoxiaodong
  */
+@Slf4j
 @Api(tags = "Project")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/config/project")
 public class ProjectController extends BaseController<ProjectEntity, IProjectService> {
-
-    // 日志记录
-    private static final Logger log = LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
     private IProjectService service;
@@ -50,6 +51,17 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
+
+        log.debug("page = {}", ToStringBuilder.reflectionToString(page));
+
+        long userId = 1L ; // CurrentAccountJwt.getUserId();
+        long count = service.count(new LambdaQueryWrapper<ProjectEntity>().eq(ProjectEntity::getOperatorId , userId));
+
+        // 初始化默认应用
+        if (count == 0) {
+            service.initDefaultApp(CurrentAccountJwt.getUserId());
+        }
+
         return this.toPage(model, this.getFeign(), page);
     }
 

@@ -14,10 +14,6 @@
                 <span><i class="el-icon-monitor"></i>
                   {{ currentEnvClusterObj.clusterName }}
                 </span>
-                <span>
-                  <i class="el-icon-link"></i> 
-                  应用地址: {{ currentEnvClusterObj.apiServerUrl }}
-                </span>
               </div>
             </div>
             <div class="title-desc">
@@ -51,7 +47,7 @@ import OperationWorkspaceService from './operation-workspace/service.vue'
 
 const currentEnvClusterObj = ref({
   appName : '分布式配置中心服务'  , 
-  clusterName: '类似于nacos之类的分布式中心'  , 
+  clusterName: '多应用的分布式配置管理中心，集成统一的安全配置管理平台'  , 
   apiServerUrl: 'http://portal.infra.linesno.com'
 }) 
 
