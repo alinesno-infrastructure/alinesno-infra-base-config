@@ -15,7 +15,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
  * </p>
  * 配置管理服务的具体实现在 ConfiguraServiceImpl 类中。
  * </p>
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 public interface IConfigureService extends IBaseService<ConfigureEntity> {

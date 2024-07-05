@@ -6,6 +6,7 @@ import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Date;
  * @author luoxiaodong
  * @version 1.0.0
  */
+@EqualsAndHashCode(callSuper = true)
 @TableName("config_env")
 @Data
 public class ConfigEnvEntity extends InfraBaseEntity {
@@ -38,10 +40,10 @@ public class ConfigEnvEntity extends InfraBaseEntity {
     /**
      * 环境描述
      */
-    @TableField("description")
+    @TableField("remark")
 	@ColumnType(length=255)
 	@ColumnComment("环境描述")
-    private String description;
+    private String remark;
 
     /**
      * 是否启用

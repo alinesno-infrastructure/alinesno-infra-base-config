@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 应用历史表，用于做历史记录
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 @SuppressWarnings("serial")

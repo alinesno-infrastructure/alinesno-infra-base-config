@@ -93,9 +93,9 @@ export const constantRoutes = [
         meta: { title: '应用管理', icon: 'dashboard', affix: true }
       }, 
       {
-        path: '/base/config/manager/index',
-        component: () => import('@/views/base/config/manager/index'),
-        name: '/base/config/manager/index',
+        path: '/base/config/configure/index',
+        component: () => import('@/views/base/config/configure/index'),
+        name: '/base/config/configure/index',
         meta: { title: '配置管理', icon: 'dashboard', affix: true }
       }, 
       {
@@ -105,15 +105,15 @@ export const constantRoutes = [
         meta: { title: '配置历史', icon: 'dashboard', affix: true }
       }, 
       {
-        path: '/base/config/request/index',
-        component: () => import('@/views/base/config/request/index'),
-        name: '/base/config/request/index',
-        meta: { title: '请求记录', icon: 'dashboard', affix: true }
+        path: '/base/config/audit/index',
+        component: () => import('@/views/base/config/audit/index'),
+        name: '/base/config/audit/index',
+        meta: { title: '变更记录', icon: 'dashboard', affix: true }
       }, 
       {
-        path: '/base/config/record/index',
-        component: () => import('@/views/base/config/record/index'),
-        name: '/base/config/record/index',
+        path: '/base/config/apiRecord/index',
+        component: () => import('@/views/base/config/apiRecord/index'),
+        name: '/base/config/apiRecord/index',
         meta: { title: '操作记录', icon: 'dashboard', affix: true }
       }, 
       {

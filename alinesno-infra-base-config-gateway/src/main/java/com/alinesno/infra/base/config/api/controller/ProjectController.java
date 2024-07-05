@@ -59,7 +59,7 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
 
         // 初始化默认应用
         if (count == 0) {
-            service.initDefaultApp(CurrentAccountJwt.getUserId());
+            service.initDefaultApp(userId);
         }
 
         return this.toPage(model, this.getFeign(), page);

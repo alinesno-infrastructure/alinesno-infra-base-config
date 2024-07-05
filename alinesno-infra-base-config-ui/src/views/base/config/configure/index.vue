@@ -4,11 +4,11 @@
          <!--应用数据-->
          <el-col :span="24" :xs="24">
             <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="100px">
-               <el-form-item label="应用名称" prop="name">
-                  <el-input v-model="queryParams.name" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+               <el-form-item label="应用名称" prop="projectId">
+                  <el-input v-model="queryParams.projectId" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
                </el-form-item>
-               <el-form-item label="应用名称" prop="name">
-                  <el-input v-model="queryParams['condition[name|like]']" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+               <el-form-item label="应用名称" prop="projectId">
+                  <el-input v-model="queryParams['condition[projectId|like]']" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
                </el-form-item>
                <el-form-item>
                   <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -31,14 +31,52 @@
                <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
             </el-row>
 
-            <el-table v-loading="loading" :data="EnvList" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="ConfigureList" @selection-change="handleSelectionChange">
                <el-table-column type="selection" width="50" align="center" />
-               <el-table-column type="index" label="序号" width="50" align="center" />
+              
+              <el-table-column label="图标" align="center" width="70" key="icon" v-if="columns[5].visible">
+                 <template #default="scope">
+                    <span style="font-size:25px;color:#3b5998">
+                       <i class="fa-solid fa-file-word" />
+                    </span>
+                 </template>
+              </el-table-column>
 
                <!-- 业务字段-->
-               <el-table-column label="环境名称" align="left" width="200" key="name" prop="name" v-if="columns[0].visible" />
-               <el-table-column label="环境标识" align="center" width="200" key="code" prop="code" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="环境描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="应用名称" align="left" width="300" key="projectId" prop="projectId" v-if="columns[0].visible" >
+                  <template #default="scope">
+                     <div>
+                        默认日志应用
+                        <!-- {{ scope.row.projectId }} -->
+                     </div>
+                     <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
+                        调用次数: 12734  环境: {{ scope.row.env }} <el-icon><CopyDocument /></el-icon>
+                     </div>
+                  </template>
+               </el-table-column>
+
+               <el-table-column label="配置标识" align="left" width="200" key="identity" prop="identity" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="配置描述" align="left" key="remarks" prop="remarks" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+
+               <el-table-column label="配置类型" align="center" width="300" key="type" prop="type" v-if="columns[4].visible" :show-overflow-tooltip="true">
+                     <template #default="scope">
+                        <div style="margin-top: 5px;" v-if="scope.row.type == 0">
+                           <el-button type="primary" bg text> <i class="fa-solid fa-credit-card"></i> Properties</el-button>
+                        </div>
+                        <div style="margin-top: 5px;" v-if="scope.row.type == 1">
+                           <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> Yaml</el-button>
+                        </div>
+                        <div style="margin-top: 5px;" v-if="scope.row.type == 4">
+                           <el-button type="danger" bg text> <i class="fa-solid fa-lemon"></i> JSON</el-button>
+                        </div>
+                     </template>
+                  </el-table-column>
+
+               <el-table-column label="内容配置" align="center" key="promptContent" prop="promptContent" v-if="columns[2].visible" :show-overflow-tooltip="true">
+                  <template #default="scope">
+                     <el-button type="primary" text bg icon="Paperclip" @click="configPrompt(scope.row)">配置内容</el-button>
+                  </template>
+               </el-table-column>
 
               <el-table-column label="是否启用" align="center" width="100" key="hasStatus" prop="hasStatus" v-if="columns[1].visible" :show-overflow-tooltip="true" >
                  <template #default="scope">
@@ -61,10 +99,10 @@
                <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                   <template #default="scope">
                      <el-tooltip content="修改" placement="top" v-if="scope.row.id !== 1">
-                        <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:Env:edit']"></el-button>
+                        <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:Configure:edit']"></el-button>
                      </el-tooltip>
                      <el-tooltip content="删除" placement="top" v-if="scope.row.id !== 1">
-                        <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:Env:remove']"></el-button>
+                        <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:Configure:remove']"></el-button>
                      </el-tooltip>
                   </template>
 
@@ -79,23 +117,47 @@
          <el-form :model="form" :rules="rules" ref="databaseRef" label-width="100px">
             <el-row>
                <el-col :span="24">
-                  <el-form-item label="环境名称" prop="name">
-                     <el-input v-model="form.name" placeholder="请输入应用名称" maxlength="50" />
+                  <el-form-item label="所属项目" prop="projectId">
+                     <el-input v-model="form.projectId" placeholder="请输入应用名称" maxlength="50" />
                   </el-form-item>
                </el-col>
             </el-row>
             <el-row>
                <el-col :span="24">
-                  <el-form-item label="环境标识" prop="code">
-                     <el-input v-model="form.code" placeholder="请输入环境标识，比如demo-project-dev" maxlength="128" />
+                  <el-form-item label="所属环境" prop="env">
+                     <el-input v-model="form.env" placeholder="请输入env连接地址" maxlength="128" />
+                  </el-form-item>
+               </el-col>
+               <el-col :span="24">
+                  <el-form-item label="配置标识" prop="identity">
+                     <el-input v-model="form.identity" placeholder="请输入配置标识" maxlength="128" />
+                  </el-form-item>
+               </el-col>
+               <el-col :span="24">
+                  <!-- <el-form-item label="类型" prop="type">
+                     <el-input v-model="form.type" placeholder="请输入类型" maxlength="50" />
+                  </el-form-item> -->
+                  <el-form-item label="类型" prop="type">
+                     <el-radio-group v-model="form.type">
+                        <el-radio label="0">properties</el-radio>
+                        <el-radio label="1">yaml</el-radio>
+                        <el-radio label="3">json</el-radio>
+                     </el-radio-group>
+                  </el-form-item>
+               </el-col>
+            </el-row>
+            <el-row>
+               <el-col :span="24">
+                  <el-form-item label="配置内容" prop="contents">
+                     <el-input v-model="form.contents" placeholder="请输入连接用户名" maxlength="30" />
                   </el-form-item>
                </el-col>
             </el-row>
 
             <el-row>
                <el-col :span="24">
-                  <el-form-item label="备注" prop="remark">
-                     <el-input v-model="form.remark" placeholder="请输入应用备注"></el-input>
+                  <el-form-item label="备注" prop="remarks">
+                     <el-input v-model="form.remarks" placeholder="请输入备注信息" maxlength="30" />
                   </el-form-item>
                </el-col>
             </el-row>
@@ -111,21 +173,21 @@
    </div>
 </template>
 
-<script setup name="Env">
+<script setup name="Configure">
 
 import {
-   listEnv,
-   delEnv,
-   getEnv,
-   updateEnv,
-   addEnv
-} from "@/api/base/config/env";
+   listConfigure,
+   delConfigure,
+   getConfigure,
+   updateConfigure,
+   addConfigure
+} from "@/api/base/config/configure";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 
 // 定义变量
-const EnvList = ref([]);
+const ConfigureList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -154,13 +216,16 @@ const data = reactive({
    queryParams: {
       pageNum: 1,
       pageSize: 10,
-      name: undefined,
-      remark: undefined
+      projectId: undefined,
+      identity: undefined
    },
    rules: {
-      name: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
-      code: [{ required: true, message: "连接不能为空", trigger: "blur" }],
-      remark: [{ required: true, message: "备注不能为空", trigger: "blur" }] 
+      projectId: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
+      env: [{ required: true, message: "连接不能为空", trigger: "blur" }],
+      type: [{ required: true, message: "类型不能为空", trigger: "blur" }] , 
+      contents: [{ required: true , message: "用户名不能为空", trigger: "blur"}],
+      remarks: [{ required: true, message: "密码不能为空", trigger: "blur" }] , 
+      identity: [{ required: true, message: "备注不能为空", trigger: "blur" }] 
    }
 });
 
@@ -169,9 +234,9 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询应用列表 */
 function getList() {
    loading.value = true;
-   listEnv(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
+   listConfigure(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
       loading.value = false;
-      EnvList.value = res.rows;
+      ConfigureList.value = res.rows;
       total.value = res.total;
    });
 };
@@ -194,7 +259,7 @@ function resetQuery() {
 function handleDelete(row) {
    const ids = row.id || ids.value;
    proxy.$modal.confirm('是否确认删除应用编号为"' + ids + '"的数据项？').then(function () {
-      return delEnv(ids);
+      return delConfigure(ids);
    }).then(() => {
       getList();
       proxy.$modal.msgSuccess("删除成功");
@@ -213,8 +278,8 @@ function reset() {
    form.value = {
       id: undefined,
       deptId: undefined,
-      EnvName: undefined,
-      nickName: undefined,
+      ConfigureName: undefined,
+      remarks: undefined,
       password: undefined,
       phonenumber: undefined,
       status: "0",
@@ -239,7 +304,7 @@ function handleAdd() {
 function handleUpdate(row) {
    reset();
    const id = row.id || ids.value;
-   getEnv(id).then(response => {
+   getConfigure(id).then(response => {
       form.value = response.data;
       open.value = true;
       title.value = "修改应用";
@@ -251,13 +316,13 @@ function submitForm() {
    proxy.$refs["databaseRef"].validate(valid => {
       if (valid) {
          if (form.value.id != undefined) {
-            updateEnv(form.value).then(response => {
+            updateConfigure(form.value).then(response => {
                proxy.$modal.msgSuccess("修改成功");
                open.value = false;
                getList();
             });
          } else {
-            addEnv(form.value).then(response => {
+            addConfigure(form.value).then(response => {
                proxy.$modal.msgSuccess("新增成功");
                open.value = false;
                getList();

@@ -23,11 +23,11 @@ const router = useRouter();
 // 菜单列表
 const menuItems = ref([
   {id:'7' , icon:'fa-brands fa-slack' , link:'/base/config/project/index' , desc:'应用管理'},
-  {id:'3' , icon:'fa-solid fa-list-check' , link:'/base/config/manager/index' , desc:'配置管理'},
+  {id:'3' , icon:'fa-solid fa-list-check' , link:'/base/config/configure/index' , desc:'配置管理'},
   {id:'6' , icon:'fa-solid fa-file-word' , link:'/base/config/env/index' , desc:'环境管理'},
   {id:'2' , icon:'fa-solid fa-recycle' , link:'/base/config/history/index' , desc:'配置历史'},
-  {id:'4' , icon:'fa-solid fa-file-word' , link:'/base/config/request/index' , desc:'请求历史'},
-  {id:'5' , icon:'fa-solid fa-house-tsunami' , link:'/base/config/record/index' , desc:'操作记录'},
+  {id:'4' , icon:'fa-solid fa-file-word' , link:'/base/config/audit/index' , desc:'变更历史'},
+  {id:'5' , icon:'fa-solid fa-house-tsunami' , link:'/base/config/apiRecord/index' , desc:'操作记录'},
 ]);
 
 // 打开服务市场

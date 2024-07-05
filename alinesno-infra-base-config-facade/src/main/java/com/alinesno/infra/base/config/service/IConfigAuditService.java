@@ -6,7 +6,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
 /**
  * 配置变更记录审计表
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 public interface IConfigAuditService extends IBaseService<ConfigAuditEntity> {

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "ConfigAudit")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/config/config_audit")
+@RequestMapping("/api/infra/base/config/audit")
 public class ConfigAuditController extends BaseController<ConfigAuditEntity, IConfigAuditService> {
 
     // 日志记录

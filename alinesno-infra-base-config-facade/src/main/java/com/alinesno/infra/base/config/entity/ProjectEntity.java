@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 /**
  * Project Entity
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)

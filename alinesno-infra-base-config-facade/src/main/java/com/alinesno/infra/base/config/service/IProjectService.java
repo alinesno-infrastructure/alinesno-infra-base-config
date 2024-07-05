@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 项目管理服务
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 public interface IProjectService extends IBaseService<ProjectEntity> {

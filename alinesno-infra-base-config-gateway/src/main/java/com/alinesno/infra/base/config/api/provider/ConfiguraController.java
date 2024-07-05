@@ -3,7 +3,6 @@ package com.alinesno.infra.base.config.api.provider;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.alinesno.infra.base.config.api.aop.RequestRecord;
 import com.alinesno.infra.base.config.api.dto.ConfigurationRequest;
 import com.alinesno.infra.base.config.api.dto.ConfigureDto;
 import com.alinesno.infra.base.config.core.tools.AesEncryptionUtils;
@@ -43,7 +42,6 @@ public class ConfiguraController {
     @Resource
     private IProjectService appsService;
 
-    @RequestRecord
     @GetMapping("/getConfig")
     public AjaxResult getConfig(ConfigurationRequest configurationRequest){
         if(ObjectUtil.isNull(configurationRequest) || ObjectUtil.isNull(configurationRequest.getIdentity())
@@ -107,7 +105,6 @@ public class ConfiguraController {
      * @param configCode 配置ID
      * @return 配置值
      */
-    @RequestRecord(desc = "请求配置信息")
     @GetMapping("/configs/{configCode}")
     public AjaxResult getConfig(@PathVariable String configCode) throws Exception {
 
@@ -127,7 +124,6 @@ public class ConfiguraController {
      * @param configData 配置数据
      * @return 操作结果
      */
-    @RequestRecord
     @PostMapping("/configs")
     public AjaxResult publishConfig(@Validated @RequestBody ConfigureDto configData) {
         // 实现发布或更新配置的逻辑

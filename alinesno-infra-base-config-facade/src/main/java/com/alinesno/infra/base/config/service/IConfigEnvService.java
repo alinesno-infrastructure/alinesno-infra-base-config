@@ -6,7 +6,7 @@ import com.alinesno.infra.common.facade.services.IBaseService;
 /**
  * 项目管理服务
  * 
- * @author LuoXiaoDong
+ * @author luoxiaodong
  * @version 1.0.0
  */
 public interface IConfigEnvService extends IBaseService<ConfigEnvEntity> {

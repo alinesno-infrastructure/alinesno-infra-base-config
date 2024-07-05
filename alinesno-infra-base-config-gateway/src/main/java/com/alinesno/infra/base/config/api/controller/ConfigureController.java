@@ -8,6 +8,7 @@ import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  * @author luoxiaodong
  */
+@Slf4j
 @Api(tags = "Configure")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
 @RequestMapping("/api/infra/base/config/configure")
 public class ConfigureController extends BaseController<ConfigureEntity, IConfigureService> {
-
-    // 日志记录
-    private static final Logger log = LoggerFactory.getLogger(ConfigureController.class);
 
     @Autowired
     private IConfigureService service;

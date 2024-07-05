@@ -9,7 +9,7 @@ import { parseStrEmpty } from "@/utils/ruoyi";
  */
 
 // 接口配置项
-var prefix = '/api/infra/base/config/project/' ;
+var prefix = '/api/infra/base/config/history/' ;
 var managerUrl = {
     datatables : prefix +"datatables" ,
     createUrl: prefix + 'add' ,
@@ -20,33 +20,33 @@ var managerUrl = {
     detailUrl: prefix +"detail",
     removeUrl: prefix + "delete" ,
     exportUrl: prefix + "exportExcel",
-    choiceProject: prefix + "choiceProject",
+    choiceHistory: prefix + "choiceHistory",
     changeField: prefix + "changeField",
-    defaultProject: prefix + "defaultProject",
+    defaultHistory: prefix + "defaultHistory",
     downloadfile: prefix + "downloadfile",
-    currentProject: prefix + "currentProject",
+    currentHistory: prefix + "currentHistory",
 }
 
 // 配置当前应用
-export function choiceProject(id){
+export function choiceHistory(id){
   return request({
-      url: managerUrl.choiceProject + '?projectId=' + parseStrEmpty(id),
+      url: managerUrl.choiceHistory + '?HistoryId=' + parseStrEmpty(id),
       method: 'get'
   })
 }
 
 // 选择当前应用
-export function getCurrentProject(){
+export function getCurrentHistory(){
   return request({
-      url: managerUrl.currentProject , 
+      url: managerUrl.currentHistory , 
       method: 'get'
   })
 }
 
 // 获取默认应用
-export function getDefaultProject(){
+export function getDefaultHistory(){
   return request({
-    url: managerUrl.defaultProject ,
+    url: managerUrl.defaultHistory ,
     method: 'get'
   })
 }
@@ -61,7 +61,7 @@ export function changStatusField(data){
 }
 
 // 查询数据库列表
-export function listProject(query) {
+export function listHistory(query) {
   return request({
     url: managerUrl.datatables ,
     method: 'post',
@@ -70,7 +70,7 @@ export function listProject(query) {
 }
 
 // 查询数据库详细
-export function getProject(databaseId) {
+export function getHistory(databaseId) {
   return request({
     url: managerUrl.detailUrl + '/' + parseStrEmpty(databaseId),
     method: 'get'
@@ -78,7 +78,7 @@ export function getProject(databaseId) {
 }
 
 // 新增数据库
-export function addProject(data) {
+export function addHistory(data) {
   return request({
     url: managerUrl.saveUrl ,
     method: 'post',
@@ -87,7 +87,7 @@ export function addProject(data) {
 }
 
 // 修改数据库
-export function updateProject(data) {
+export function updateHistory(data) {
   return request({
     url: managerUrl.updateUrl ,
     method: 'put',
@@ -96,7 +96,7 @@ export function updateProject(data) {
 }
 
 // 删除数据库
-export function delProject(databaseId) {
+export function delHistory(databaseId) {
   return request({
     url: managerUrl.removeUrl + '/' + parseStrEmpty(databaseId),
     method: 'delete'

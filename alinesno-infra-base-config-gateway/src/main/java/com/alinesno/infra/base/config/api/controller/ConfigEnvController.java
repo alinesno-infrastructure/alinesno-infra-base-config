@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "ConfigEnv")
 @RestController
 @Scope(SpringInstanceScope.PROTOTYPE)
-@RequestMapping("/api/infra/base/config/config_env")
+@RequestMapping("/api/infra/base/config/env")
 public class ConfigEnvController extends BaseController<ConfigEnvEntity, IConfigEnvService> {
 
     // 日志记录
