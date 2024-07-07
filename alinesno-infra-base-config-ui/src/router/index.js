@@ -99,6 +99,12 @@ export const constantRoutes = [
         meta: { title: '配置管理', icon: 'dashboard', affix: true }
       }, 
       {
+        path: '/base/config/configure/edit/:configId',
+        component: () => import('@/views/base/config/configure/editor'),
+        name: '/base/config/configure/edit',
+        meta: { title: '配置管理', icon: 'dashboard', affix: true }
+      }, 
+      {
         path: '/base/config/history/index',
         component: () => import('@/views/base/config/history/index'),
         name: '/base/config/history/index',

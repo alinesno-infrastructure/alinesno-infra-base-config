@@ -46,8 +46,7 @@
                <el-table-column label="应用名称" align="left" width="300" key="projectId" prop="projectId" v-if="columns[0].visible" >
                   <template #default="scope">
                      <div>
-                        默认日志应用
-                        <!-- {{ scope.row.projectId }} -->
+                        {{ scope.row.name }}
                      </div>
                      <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.promptId">
                         调用次数: 12734  环境: {{ scope.row.env }} <el-icon><CopyDocument /></el-icon>
@@ -74,7 +73,7 @@
 
                <el-table-column label="内容配置" align="center" key="promptContent" prop="promptContent" v-if="columns[2].visible" :show-overflow-tooltip="true">
                   <template #default="scope">
-                     <el-button type="primary" text bg icon="Paperclip" @click="configPrompt(scope.row)">配置内容</el-button>
+                     <el-button type="primary" text bg icon="Paperclip" @click="editContent(scope.row)">配置内容</el-button>
                   </template>
                </el-table-column>
 
@@ -129,30 +128,23 @@
                   </el-form-item>
                </el-col>
                <el-col :span="24">
+                  <el-form-item label="配置名称" prop="name">
+                     <el-input v-model="form.name" placeholder="请输入配置名称" maxlength="128" />
+                  </el-form-item>
+               </el-col>
+               <el-col :span="24">
                   <el-form-item label="配置标识" prop="identity">
                      <el-input v-model="form.identity" placeholder="请输入配置标识" maxlength="128" />
                   </el-form-item>
                </el-col>
-               <el-col :span="24">
-                  <!-- <el-form-item label="类型" prop="type">
-                     <el-input v-model="form.type" placeholder="请输入类型" maxlength="50" />
-                  </el-form-item> -->
-                  <el-form-item label="类型" prop="type">
-                     <el-radio-group v-model="form.type">
-                        <el-radio label="0">properties</el-radio>
-                        <el-radio label="1">yaml</el-radio>
-                        <el-radio label="3">json</el-radio>
-                     </el-radio-group>
-                  </el-form-item>
-               </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                <el-col :span="24">
                   <el-form-item label="配置内容" prop="contents">
                      <el-input v-model="form.contents" placeholder="请输入连接用户名" maxlength="30" />
                   </el-form-item>
                </el-col>
-            </el-row>
+            </el-row> -->
 
             <el-row>
                <el-col :span="24">
@@ -170,6 +162,13 @@
          </template>
       </el-dialog>
 
+      <!-- 添加或修改指令配置对话框 -->
+      <el-dialog :title="promptTitle" v-model="promptOpen" width="1024" destroy-on-close append-to-body>
+
+         <PromptEditor :currentPostId="currentPostId" :currentPromptContent="currentPromptContent" />
+
+      </el-dialog>
+
    </div>
 </template>
 
@@ -182,6 +181,8 @@ import {
    updateConfigure,
    addConfigure
 } from "@/api/base/config/configure";
+
+import PromptEditor from "./editor.vue"
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
@@ -199,6 +200,12 @@ const title = ref("");
 const dateRange = ref([]);
 const postOptions = ref([]);
 const roleOptions = ref([]);
+
+// 编辑配置
+const promptTitle = ref("");
+const currentPostId = ref("");
+const currentPromptContent = ref([]);
+const promptOpen = ref(false);
 
 // 列显隐信息
 const columns = ref([
@@ -331,6 +338,20 @@ function submitForm() {
       }
    });
 };
+
+/** 修改配置信息 */
+function editContent(row){
+
+   // promptTitle.value = "配置角色Prompt";
+   // promptOpen.value = true ;
+   // currentPostId.value = row.id;
+
+   // if(row.promptContent){
+   //    currentPromptContent.value = JSON.parse(row.promptContent);
+   // }
+
+  router.push({ path: "/base/config/configure/edit/" + row.id });
+}
 
 getList();
 

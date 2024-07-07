@@ -25,6 +25,35 @@ var managerUrl = {
     defaultConfigure: prefix + "defaultConfigure",
     downloadfile: prefix + "downloadfile",
     currentConfigure: prefix + "currentConfigure",
+    getProjectConfig: prefix + "getProjectConfig",
+    addProjectConfig: prefix + "addProjectConfig",
+    updateProjectConfig: prefix + "updateProjectConfig",
+}
+
+// 获取项目配置列表
+export function getProjectConfig(configId) {
+  return request({
+    url: managerUrl.getProjectConfig + '?configId='+ parseStrEmpty(configId) , // 假设这里的端点用于获取项目配置
+    method: 'get'
+  });
+}
+
+// 添加项目配置
+export function addProjectConfig(data) {
+  return request({
+    url: managerUrl.addProjectConfig, 
+    method: 'post',
+    data: data
+  });
+}
+
+// 更新项目配置
+export function updateProjectConfig(data) {
+  return request({
+    url: managerUrl.updateProjectConfig , 
+    method: 'put',
+    data: data
+  });
 }
 
 // 配置当前应用
