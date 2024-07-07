@@ -70,7 +70,7 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
     @ApiOperation("添加项目配置")
     @PostMapping("/addProjectConfig")
     public AjaxResult addProjectConfig(@RequestBody ConfigureEntity configureEntity) {
-        service.save(configureEntity);
+        service.addProjectConfig(configureEntity);
         return AjaxResult.success("项目配置添加成功");
     }
 
@@ -83,7 +83,7 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
     @ApiOperation("更新项目配置")
     @PutMapping("/updateProjectConfig")
     public AjaxResult updateProjectConfig(@RequestBody ConfigureEntity configureEntity) {
-        service.update(configureEntity);
+        service.updateProjectConfig(configureEntity);
         return AjaxResult.success("项目配置更新成功");
     }
 

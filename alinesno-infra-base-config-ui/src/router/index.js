@@ -116,6 +116,12 @@ export const constantRoutes = [
         name: '/base/config/audit/index',
         meta: { title: '变更记录', icon: 'dashboard', affix: true }
       }, 
+      { 
+        path: '/base/config/analyse/index',
+        component: () => import('@/views/base/config/analyse/index'),
+        name: '/base/config/analyse/index',
+        meta: { title: '调用分析', icon: 'dashboard', affix: true }
+      }, 
       {
         path: '/base/config/apiRecord/index',
         component: () => import('@/views/base/config/apiRecord/index'),

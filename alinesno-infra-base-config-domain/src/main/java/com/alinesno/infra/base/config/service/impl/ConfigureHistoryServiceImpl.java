@@ -1,13 +1,13 @@
 package com.alinesno.infra.base.config.service.impl;
 
+import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.entity.ConfigureHistoryEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.alinesno.infra.base.config.mapper.ConfigureHistoryMapper;
 import com.alinesno.infra.base.config.service.IConfigureHistoryService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -17,11 +17,25 @@ import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
  * @author weixiaojin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ConfigureHistoryServiceImpl extends IBaseServiceImpl<ConfigureHistoryEntity, ConfigureHistoryMapper> implements IConfigureHistoryService {
 
-	// 日志记录
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(ConfigureHistoryServiceImpl.class);
+	@Override
+	public void saveHistory(ConfigureEntity configure) {
 
+		ConfigureHistoryEntity history = new ConfigureHistoryEntity() ;
+		BeanUtils.copyProperties(configure , history);
+
+		history.setId(null);
+		history.setConfigId(configure.getId());
+
+		if(history.getConfVersion() == null || history.getConfVersion() == 0){
+			history.setConfVersion(0);
+		}
+
+		history.setConfVersion(history.getConfVersion() + 1);
+
+		save(history);
+	}
 }

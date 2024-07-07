@@ -6,12 +6,12 @@ import com.alinesno.infra.base.config.core.tools.AsymmetricEncryption;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.entity.ConfigureKeyEntity;
 import com.alinesno.infra.base.config.mapper.ConfigureMapper;
+import com.alinesno.infra.base.config.service.IConfigureHistoryService;
 import com.alinesno.infra.base.config.service.IConfigureKeyService;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,14 +34,15 @@ import java.util.Base64;
  * @author weixiaojin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, ConfigureMapper> implements IConfigureService {
 
-	// 日志记录
-	private static final Logger log = LoggerFactory.getLogger(ConfigureServiceImpl.class);
-
 	@Autowired
 	private IConfigureKeyService configureKeyService ;
+
+	@Autowired
+	private IConfigureHistoryService configureHistoryService ;
 
 	@Override
 	public ConfigureDto getByCode(String code) {
@@ -143,5 +144,21 @@ public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, Conf
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	@Override
+	public void addProjectConfig(ConfigureEntity configureEntity) {
+		save(configureEntity) ;
+
+		// 版本号+1,并保存到历史表中
+		configureHistoryService.saveHistory(configureEntity) ;
+	}
+
+	@Override
+	public void updateProjectConfig(ConfigureEntity configureEntity) {
+		update(configureEntity) ;
+
+		// 版本号+1,并保存到历史表中
+		configureHistoryService.saveHistory(configureEntity) ;
 	}
 }

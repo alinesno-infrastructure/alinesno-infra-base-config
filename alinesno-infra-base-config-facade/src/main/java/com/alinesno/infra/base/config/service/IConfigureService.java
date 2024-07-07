@@ -41,4 +41,16 @@ public interface IConfigureService extends IBaseService<ConfigureEntity> {
      * @return
      */
     String getPublicKey(String identity);
+
+    /**
+     * 添加项目配置
+     * @param configureEntity
+     */
+    void addProjectConfig(ConfigureEntity configureEntity);
+
+    /**
+     *
+     * @param configureEntity
+     */
+    void updateProjectConfig(ConfigureEntity configureEntity);
 }
