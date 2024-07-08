@@ -28,14 +28,20 @@
         <dependency>
             <groupId>com.alinesno.infra.base</groupId>
             <artifactId>alinesno-infra-base-config-core</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+			<version>${revision}</version>
         </dependency>
+
+		<!-- 引入第三方工具包 -->
         <dependency>
             <groupId>org.sqids</groupId>
             <artifactId>sqids</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
         </dependency>
 
     </dependencies>

@@ -9,12 +9,12 @@
  
     <el-page-header @back="goBack" :content="title"></el-page-header>
  
-    <el-form ref="databaseRef" :model="form" :rules="rules" label-width="80px" style="margin-top:20px;padding:10px" label-position="left">
+    <el-form ref="databaseRef" :model="form" :rules="rules" label-width="120px" style="margin-top:30px"  label-position="left">
           <el-form-item label="配置名称" prop="name" style="width: 40%">
-            <el-input v-model="form.name" placeholder="请输入配置名称" style="width: 500px"/>
+            <el-input v-model="form.name" disabled placeholder="请输入配置名称" style="width: 500px"/>
           </el-form-item>
           <el-form-item label="配置标识" prop="identity" style="width: 45%">
-            <el-input v-model="form.identity" placeholder="请输入配置标识" style="width: 500px"/>
+            <el-input v-model="form.identity" disabled placeholder="请输入配置标识" style="width: 500px"/>
           </el-form-item>
         <el-form-item label="导入配置文件" label-width="102px">
             <el-upload action="#" :before-upload="handleFileUpload">
@@ -22,24 +22,8 @@
             </el-upload>
           </el-form-item>
  
-      <!-- <el-form-item label-width="0px">
-        <el-form :inline="true" :model="form" :rules="rules" label-position="left">
-        </el-form>
-      </el-form-item> -->
- 
-      <!-- <el-form-item label-width="0px">
-        <el-form :inline="true" :model="form" :rules="rules" label-position="left">
-        </el-form>
-      </el-form-item> -->
- 
-          <!-- v-model="form.contents" -->
-        <el-form-item label="导入配置文件" label-width="102px">
+        <el-form-item label="配置内容" label-width="102px">
           <div class="cm-container">
-            <!-- <codemirror
-              class="CodeMirror"
-              :options="editorOptions"
-              ref="myEditor"
-            ></codemirror> -->
             <code-mirror 
               basic 
               :lang="lang" 
@@ -60,9 +44,9 @@
  <script setup  name="EditConfigure">
 
 import {
-   getProjectConfig,
-   addProjectConfig,
-   updateProjectConfig 
+   getConfigContent,
+   addConfigContent,
+   updateConfigContent 
 
 } from "@/api/base/config/configure";
 
@@ -76,18 +60,9 @@ const router = useRouter();
 const { proxy } = getCurrentInstance();
 
 const configId = router.currentRoute.value.params.configId ; 
-const initJson = {
-  name: "maybaby",
-  year: 25,
-  weight: 45,
-  height: 165
-};
 
 // 初始化
 let codeVal = ref('');
-// 转成json字符串并格式化
-codeVal.value = JSON.stringify(initJson, null, '\t')
-// json
 const lang = yaml() ; // json();
 
 // 扩展
@@ -131,12 +106,6 @@ const data = reactive({
       identity: undefined
    },
    rules: {
-      projectId: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
-      env: [{ required: true, message: "连接不能为空", trigger: "blur" }],
-      type: [{ required: true, message: "类型不能为空", trigger: "blur" }] , 
-      contents: [{ required: true , message: "用户名不能为空", trigger: "blur"}],
-      remarks: [{ required: true, message: "密码不能为空", trigger: "blur" }] , 
-      identity: [{ required: true, message: "备注不能为空", trigger: "blur" }] 
    }
 });
 
@@ -149,7 +118,7 @@ function goBack() {
 /** 应用启动环境 */
 onMounted(() => {
   console.log('configId= ' + configId) ;
-  getProjectConfig(configId).then(res => {
+  getConfigContent(configId).then(res => {
     console.log('res = ' + res);
     form.value = res.data ;
 
@@ -166,7 +135,7 @@ function submitForm() {
    proxy.$refs["databaseRef"].validate(valid => {
       if (valid) {
         form.value.contents = codeVal.value ;
-        updateProjectConfig(form.value).then(response => {
+        updateConfigContent(form.value).then(response => {
             proxy.$modal.msgSuccess("修改成功");
         });
       }
@@ -179,5 +148,9 @@ function submitForm() {
 /* required! */
 .cm-editor {
   height: 100%;
+}
+
+.cm-container{
+  width:100%;
 }
 </style>

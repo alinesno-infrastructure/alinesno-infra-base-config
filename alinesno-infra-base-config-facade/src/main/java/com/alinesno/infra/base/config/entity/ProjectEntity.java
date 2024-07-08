@@ -58,4 +58,9 @@ public class ProjectEntity extends InfraBaseEntity {
 	@ColumnType(length=255)
 	@ColumnComment("code")
 	private String code;
+
+	@TableField("count_config")
+	@ColumnType
+	@ColumnComment("项目配置总数")
+	private Integer countConfig ;
 }

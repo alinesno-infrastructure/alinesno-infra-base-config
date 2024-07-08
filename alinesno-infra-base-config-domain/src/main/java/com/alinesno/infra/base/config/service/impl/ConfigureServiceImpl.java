@@ -5,10 +5,12 @@ import com.alinesno.infra.base.config.api.dto.ConfigureDto;
 import com.alinesno.infra.base.config.core.tools.AsymmetricEncryption;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
 import com.alinesno.infra.base.config.entity.ConfigureKeyEntity;
+import com.alinesno.infra.base.config.enums.ConfigTypeEnum;
 import com.alinesno.infra.base.config.mapper.ConfigureMapper;
 import com.alinesno.infra.base.config.service.IConfigureHistoryService;
 import com.alinesno.infra.base.config.service.IConfigureKeyService;
 import com.alinesno.infra.base.config.service.IConfigureService;
+import com.alinesno.infra.base.config.utils.ContentTypeUtils;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -147,7 +149,7 @@ public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, Conf
 	}
 
 	@Override
-	public void addProjectConfig(ConfigureEntity configureEntity) {
+	public void addConfigContent(ConfigureEntity configureEntity) {
 		save(configureEntity) ;
 
 		// 版本号+1,并保存到历史表中
@@ -155,10 +157,24 @@ public class ConfigureServiceImpl extends IBaseServiceImpl<ConfigureEntity, Conf
 	}
 
 	@Override
-	public void updateProjectConfig(ConfigureEntity configureEntity) {
+	public void updateConfigContent(ConfigureEntity configureEntity) {
+
+		// 判断配置类型
+		ConfigTypeEnum configTypeEnum = checkConfigType(configureEntity.getContents()) ;
+		configureEntity.setType(configTypeEnum.getCode());
+
 		update(configureEntity) ;
 
 		// 版本号+1,并保存到历史表中
 		configureHistoryService.saveHistory(configureEntity) ;
+	}
+
+	/**
+	 * 判断文件内容类型
+	 * @param contents
+	 * @return
+	 */
+	private ConfigTypeEnum checkConfigType(String contents) {
+		return ContentTypeUtils.checkConfigType(contents)  ;
 	}
 }

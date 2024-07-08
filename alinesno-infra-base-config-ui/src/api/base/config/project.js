@@ -24,7 +24,16 @@ var managerUrl = {
     changeField: prefix + "changeField",
     defaultProject: prefix + "defaultProject",
     downloadfile: prefix + "downloadfile",
+    updateProjectConfigure: prefix + "updateProjectConfigure",
     currentProject: prefix + "currentProject",
+}
+
+// 更新应用的配置列表
+export function updateProjectConfigure(projectId , configIds){
+  return request({
+      url: managerUrl.updateProjectConfigure + '?config=' + parseStrEmpty(configIds) + '&id=' + parseStrEmpty(projectId) ,
+      method: 'get'
+  })
 }
 
 // 配置当前应用

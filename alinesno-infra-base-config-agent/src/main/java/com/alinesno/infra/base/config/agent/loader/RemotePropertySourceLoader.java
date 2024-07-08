@@ -1,16 +1,18 @@
 package com.alinesno.infra.base.config.agent.loader;
 
-import cn.hutool.core.util.StrUtil;
 import com.alinesno.infra.base.config.agent.util.RemotePropertySourceUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.env.PropertySourceLoader;
-import org.springframework.core.env.*;
+import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 用于加载远程属性源的 PropertySourceLoader 实现。
@@ -20,10 +22,8 @@ import java.util.*;
  * @author luoxiaodong
  * @since 1.0.0
  */
+@Slf4j
 public class RemotePropertySourceLoader implements PropertySourceLoader {
-
-    // 用于记录日志消息的 Logger
-    private static final Logger log = LoggerFactory.getLogger(RemotePropertySourceLoader.class);
 
     @Override
     public String[] getFileExtensions() {
@@ -34,7 +34,7 @@ public class RemotePropertySourceLoader implements PropertySourceLoader {
     private RemotePropertySourceUtil remotePropertySourceUtil;
 
     @Override
-    public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
+    public List load(String name, Resource resource) throws IOException {
         // 从给定的资源加载属性
         String filename = resource.getFilename();
         setUtil(RemotePropertySourceUtil.getInstance());
@@ -54,9 +54,19 @@ public class RemotePropertySourceLoader implements PropertySourceLoader {
         }
 
         if (props != null) {
+
+            System.out.println("--->> " + props);
+            if(props.containsKey(RemotePropertySourceUtil.CONFIG_CENTER_URL)){
+                System.out.println("alinesno.configure.remote-first ===>>> " + props.get("alinesno.configure.remote-first"));
+                System.out.println("alinesno.configure.enabled ===>>> " + props.get("alinesno.configure.enabled"));
+                System.out.println("alinesno.configure.host ===>>> " + props.get("alinesno.configure.host"));
+                System.out.println("alinesno.configure.identity ===>>> " + props.get("alinesno.configure.identity"));
+                System.out.println("alinesno.configure.env ===>>> " + props.get("alinesno.configure.env"));
+            }
+
             // 检查属性是否包含配置中心 URL，并在存在时获取配置
             if (props.containsKey(RemotePropertySourceUtil.CONFIG_CENTER_URL)
-                    && StrUtil.isNotEmpty(props.getProperty(RemotePropertySourceUtil.CONFIG_CENTER_URL))) {
+                    && props.get(RemotePropertySourceUtil.CONFIG_CENTER_URL) != null) {
                 remotePropertySourceUtil.init(props);
                 props = remotePropertySourceUtil.fetchConfig(props);
             }

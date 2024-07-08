@@ -34,28 +34,19 @@
 
            <el-table v-loading="loading" :data="ProjectList" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="50" align="center" />
-              
-              <el-table-column label="图标" align="center" width="70" key="icon" v-if="columns[5].visible">
-                 <template #default="scope">
-                    <span style="font-size:25px;color:#3b5998">
-                       <i class="fa-solid fa-file-word" />
-                    </span>
-                 </template>
-              </el-table-column>
-
 
               <!-- 业务字段-->
-              <el-table-column label="应用名称" align="left" width="250" key="name" prop="name" v-if="columns[0].visible">
+              <el-table-column label="应用名称" align="left" width="200" key="name" prop="name" v-if="columns[0].visible">
                  <template #default="scope">
-                     <el-button type="danger" bg text @click="handleProjectSpace(scope.row.id)"> 
-                        <i class="fa-solid fa-link"></i>&nbsp;{{ scope.row.name }}
-                     </el-button>
+                     <div style="font-size:14px;color:#3b5998">
+                        <i class="fa-solid fa-file-word" />&nbsp;{{ scope.row.name }}
+                     </div>
                  </template>
               </el-table-column>
               <el-table-column label="应用描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" />
               <el-table-column label="应用代码" align="center" width="200" key="projectCode" prop="projectCode" v-if="columns[2].visible" :show-overflow-tooltip="true">
                  <template #default="scope">
-                     <div style="font-size: 13px;color: #a5a5a5;cursor: pointer;" v-copyText="scope.row.code">
+                     <div style="cursor: pointer;" v-copyText="scope.row.code">
                         {{ scope.row.code }} <el-icon><CopyDocument /></el-icon>
                      </div>
                   </template>
@@ -64,7 +55,7 @@
               <el-table-column label="配置文档" align="center" width="200" key="documentType" prop="documentType" v-if="columns[1].visible" :show-overflow-tooltip="true" >
                  <template #default="scope">
                     <el-button type="primary" bg text @click="handleConfigType(scope.row.id , scope.row.documentType)"> 
-                        <i class="fa-solid fa-link"></i>&nbsp;配置文档 
+                        <i class="fa-solid fa-screwdriver-wrench"></i> &nbsp;&nbsp;选择配置（{{ scope.row.countConfig }}）
                      </el-button>
                  </template>
               </el-table-column>
@@ -216,7 +207,7 @@
      <!-- 文档列表 -->
      <el-dialog :title="title" v-model="openDocumentTypeDialog" width="1024px" append-to-body>
 
-        <TypeList />
+        <TypeList ref="ConfigurePanel" :currentProjectId="currentProjectId" />
 
         <template #footer>
            <div class="dialog-footer">
@@ -236,16 +227,18 @@ import {
   delProject,
   getProject,
   updateProject,
+  updateProjectConfigure,
   addProject,
   changStatusField
 } from "@/api/base/config/project";
 
-// import TypeList from './channelList.vue'
+import TypeList from '../configure/projectConfig.vue'
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 
 // 定义变量
+const ConfigurePanel = ref(null)
 const ProjectList = ref([]);
 const open = ref(false);
 const loading = ref(true);
@@ -256,6 +249,7 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const dateRange = ref([]);
+const currentProjectId = ref(0); 
 
 // 是否打开配置文档
 const openDocumentTypeDialog = ref(false);
@@ -401,25 +395,21 @@ function submitForm() {
 /** 配置文档类型 */
 function handleConfigType(id , documentType){
   openDocumentTypeDialog.value = true ; 
+  currentProjectId.value = id ; 
+  console.log('currentProjectId = ' + currentProjectId.value);
 }
 
-/** 修改状态 */
-const handleChangStatusField = async(field , value , id) => {
-   // 判断tags值 这样就不会进页面时调用了
-     const res = await changStatusField({
-        field: field,
-        value: value?1:0,
-        id: id
-     }).catch(() => { })
-     if (res && res.code == 200) {
-        // 刷新表格
-        getList()
-     }
-}
 
 /** 提交配置文档类型 */
 function submitDocumentTypeForm(){
   // TODO 待保存应用文档类型
+  var ids = ConfigurePanel.value.handleSelectionIds() ;
+  console.log('parent ids = ' + ids + " , currentProjectId = " + currentProjectId.value);
+  updateProjectConfigure(currentProjectId.value , ids).then(res => {
+      openDocumentTypeDialog.value = false; 
+      proxy.$modal.msgSuccess("配置成功.");
+      getList();
+  })
 }
 
 getList();

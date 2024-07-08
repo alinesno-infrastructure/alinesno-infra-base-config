@@ -5,22 +5,17 @@ import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
-import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
+import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 处理与ProjectEntity相关的请求的Controller。
@@ -63,6 +58,17 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
         }
 
         return this.toPage(model, this.getFeign(), page);
+    }
+
+    /**
+     * 更新项目配置
+     * @return
+     */
+    @GetMapping("/updateProjectConfigure")
+    public AjaxResult updateProjectConfigure(long id ,  String config){
+        log.debug("config = {}" , config);
+        service.updateProjectConfigure(id , config) ;
+        return ok();
     }
 
     @Override

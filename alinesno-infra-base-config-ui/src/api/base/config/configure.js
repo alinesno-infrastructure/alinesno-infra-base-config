@@ -25,32 +25,60 @@ var managerUrl = {
     defaultConfigure: prefix + "defaultConfigure",
     downloadfile: prefix + "downloadfile",
     currentConfigure: prefix + "currentConfigure",
-    getProjectConfig: prefix + "getProjectConfig",
-    addProjectConfig: prefix + "addProjectConfig",
-    updateProjectConfig: prefix + "updateProjectConfig",
+    getConfigContent: prefix + "getConfigContent",
+    addConfigContent: prefix + "addConfigContent",
+    updateConfigContent: prefix + "updateConfigContent",
+    getProjectAndEnv: prefix + "getProjectAndEnv",
+    catalogTreeSelect: prefix + "catalogTreeSelect",
+}
+
+// 修改字段
+export function changStatusField(data){
+  return request({
+    url: managerUrl.changeField ,
+    method: 'post',
+    data: data
+  })
+}
+
+// 获取所有项目和所有环境列表
+export function getProjectAndEnv() {
+  return request({
+    url: managerUrl.getProjectAndEnv , 
+    method: 'get'
+  });
 }
 
 // 获取项目配置列表
-export function getProjectConfig(configId) {
+export function getConfigContent(configId) {
   return request({
-    url: managerUrl.getProjectConfig + '?configId='+ parseStrEmpty(configId) , // 假设这里的端点用于获取项目配置
+    url: managerUrl.getConfigContent + '?configId='+ parseStrEmpty(configId) , // 假设这里的端点用于获取项目配置
     method: 'get'
   });
 }
 
 // 添加项目配置
-export function addProjectConfig(data) {
+export function addConfigContent(data) {
   return request({
-    url: managerUrl.addProjectConfig, 
+    url: managerUrl.addConfigContent, 
     method: 'post',
     data: data
   });
 }
 
-// 更新项目配置
-export function updateProjectConfig(data) {
+
+// 查询部门下拉树结构
+export function catalogTreeSelect() {
   return request({
-    url: managerUrl.updateProjectConfig , 
+    url: managerUrl.catalogTreeSelect , 
+    method: 'get'
+  })
+}
+
+// 更新项目配置
+export function updateConfigContent(data) {
+  return request({
+    url: managerUrl.updateConfigContent , 
     method: 'put',
     data: data
   });
@@ -77,15 +105,6 @@ export function getDefaultConfigure(){
   return request({
     url: managerUrl.defaultConfigure ,
     method: 'get'
-  })
-}
-
-// 修改字段
-export function changStatusField(data){
-  return request({
-    url: managerUrl.changeField ,
-    method: 'post',
-    data: data
   })
 }
 

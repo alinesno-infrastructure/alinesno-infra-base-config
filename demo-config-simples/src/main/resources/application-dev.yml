@@ -2,15 +2,10 @@
 #  application:
 #    name: demo-config-simples
 
-alinesno.ops:
+alinesno:
   configure:
-    file-type:
-      - yml
-      - properties
-      - yaml
-    app-code: alinesno-infra-base-config-demo
-    identity: admin
+    identity: 1810204389017624576
+    env: dev
     enabled: true
-    config-host: http://localhost:8080
-    public-key: admin
-    jasypt-key: admin
+    remote-first: true
+    host: http://localhost:30102

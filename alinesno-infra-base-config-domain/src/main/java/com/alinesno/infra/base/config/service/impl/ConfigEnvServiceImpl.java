@@ -4,8 +4,7 @@ import com.alinesno.infra.base.config.entity.ConfigEnvEntity;
 import com.alinesno.infra.base.config.mapper.ConfigEvnMapper;
 import com.alinesno.infra.base.config.service.IConfigEnvService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,11 +15,8 @@ import org.springframework.stereotype.Service;
  * @author weixiaojin
  * @version 1.0.0
  */
+@Slf4j
 @Service
 public class ConfigEnvServiceImpl extends IBaseServiceImpl<ConfigEnvEntity, ConfigEvnMapper> implements IConfigEnvService {
-
-	// 日志记录
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(ConfigEnvServiceImpl.class);
 
 }

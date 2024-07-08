@@ -28,6 +28,11 @@ public class ConfigureEntity extends InfraBaseEntity {
 	@ColumnComment("所属项目")
 	private Long projectId ; //  所属项目
 
+	@TableField(value = "catalog_id")
+	@ColumnType(length=255)
+	@ColumnComment("所属类型")
+	private Long catalogId; //  所属类型
+
 	// 环境
 	@TableField(value = "env")
 	@ColumnType(length=255)

@@ -5,9 +5,16 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alinesno.infra.base.config.agent.dto.ConfigureContentDto;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -26,21 +33,15 @@ public class RemotePropertySourceUtil {
     private static final String PLACEHOLDER_SUFFIX = "}";
     private static final String REPLACE_STR = "${";
 
+    public final static String CONFIG_IDENTITY = "alinesno.configure.identity";
+    public final static String CONFIG_ENABLED = "alinesno.configure.enabled";
+    public final static String CONFIG_CENTER_URL = "alinesno.configure.host";
+    public final static String CONFIG_ENV = "alinesno.configure.env";
+    public final static String CONFIG_CENTER_REMOTE_FIRST = "alinesno.configure.remote-first";
 
-    public final static String CONFIG_APP_OPEN_ID = "alinesno.config.project.open-id";
-    public final static String CONFIG_IDENTITY = "alinesno.config.identity";
-    public final static String CONFIG_ENABLED = "alinesno.config.enabled";
-    public final static String CONFIG_CENTER_URL = "alinesno.config.center.url";
-    public final static String CONFIG_CENTER_GATEWAY_TOKEN_NAME = "alinesno.config.center.gate-token-name";
-    public final static String CONFIG_CENTER_GATEWAY_TOKEN_VALUE = "alinesno.config.center.gate-token-value";
-    public final static String CONFIG_CENTER_REMOTE_FIRST = "alinesno.config.remote-first";
-
-    private String appOpenId;
     private String configIdentity;
     private String centerUrl;
-    private String gatewayTokenName;
-    private String gatewayTokenValue;
-
+    private String env ;
     private boolean isEnable;
     private boolean remoteFirst;
 
@@ -53,6 +54,7 @@ public class RemotePropertySourceUtil {
 
         Object enable = localProperties.get(CONFIG_ENABLED);
         Object remoteFirst = localProperties.get(CONFIG_CENTER_REMOTE_FIRST);
+        Object env = localProperties.get(CONFIG_ENV);
 
         if(enable == null) {
             this.isEnable = false;
@@ -62,7 +64,7 @@ public class RemotePropertySourceUtil {
         if (enable instanceof Boolean) {
             this.isEnable = Optional.of((Boolean) enable).orElse(false);
         } else {
-            this.isEnable = Optional.of(Boolean.parseBoolean(localProperties.getProperty(CONFIG_ENABLED))).orElse(false);
+            this.isEnable = Optional.of(Boolean.parseBoolean(localProperties.get(CONFIG_ENABLED)+"")).orElse(false);
         }
 
         if (remoteFirst == null) {
@@ -70,7 +72,7 @@ public class RemotePropertySourceUtil {
         } else if (remoteFirst instanceof Boolean){
             this.remoteFirst = Optional.of((Boolean) remoteFirst).orElse(false);
         } else {
-            this.remoteFirst = Optional.of(Boolean.parseBoolean(localProperties.getProperty(CONFIG_CENTER_REMOTE_FIRST))).orElse(false);
+            this.remoteFirst = Optional.of(Boolean.parseBoolean(localProperties.get(CONFIG_CENTER_REMOTE_FIRST)+"")).orElse(false);
         }
 
 
@@ -78,11 +80,9 @@ public class RemotePropertySourceUtil {
             return;
         }
 
-        this.appOpenId = localProperties.getProperty(CONFIG_APP_OPEN_ID);
-        this.configIdentity = localProperties.getProperty(CONFIG_IDENTITY);
-        this.centerUrl = localProperties.getProperty(CONFIG_CENTER_URL);
-        this.gatewayTokenName = localProperties.getProperty(CONFIG_CENTER_GATEWAY_TOKEN_NAME);
-        this.gatewayTokenValue = localProperties.getProperty(CONFIG_CENTER_GATEWAY_TOKEN_VALUE);
+        this.env = env + "" ;
+        this.configIdentity = localProperties.get(CONFIG_IDENTITY)+"";
+        this.centerUrl = localProperties.get(CONFIG_CENTER_URL)+"";
     }
 
     public Properties fetchConfig(Properties localProperties) {
@@ -91,7 +91,7 @@ public class RemotePropertySourceUtil {
         }
         Properties remoteProperties = this.getRemoterConfig();
 
-        Properties rProperties = null;
+        Properties rProperties;
 
         //考虑是否远程配置优先
         if(remoteFirst){
@@ -110,9 +110,10 @@ public class RemotePropertySourceUtil {
     }
 
     private Properties getRemoterConfig() {
-        if (centerUrl == null || appOpenId == null || configIdentity == null) {
+        if (centerUrl == null || configIdentity == null) {
             return null;
         }
+
         String errorMsg = "";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long startTime = new Date().getTime();
@@ -120,56 +121,64 @@ public class RemotePropertySourceUtil {
         if (this.centerUrl.endsWith("/")) {
             centerUrl = centerUrl.substring(0, centerUrl.length() - 1);
         }
-        String url = this.centerUrl + "/v1/api/base/config/getConfig" ;
-        Map<String, Object> params = new HashMap<>();
-        params.put("openId", appOpenId);
-        params.put("identity", configIdentity);
+        String url = this.centerUrl + "/v1/api/base/config/getConfigByProject?identity=" + configIdentity + "&env=" + env ;
 
-        System.out.println("获取远程配置: " + configIdentity);
-        HttpResponse response = HttpRequest.get(url)
-                .header(this.gatewayTokenName, this.gatewayTokenValue)
-                .form(params)
-                .execute();
+        System.err.println("获取远程配置: " + url);
+        HttpResponse response = HttpRequest.get(url).execute();
 
         if (response.getStatus() >= 400) {
             errorMsg = "获取远程配置出错: 请求出错";
         }
 
         JSONObject jsonObject = new JSONObject(response.body());
-        int code = (int) jsonObject.get("code");
+        int code = jsonObject.getInt("code");
         if (code >= 400) {
             errorMsg = "获取远程配置出错： " + (String) jsonObject.get("msg");
         }
 
-        JSONObject configInfo = jsonObject.getJSONObject("data");
-        String type = configInfo.getStr("type");
-        String content = configInfo.getStr("content");
+//        JSONObject configInfo = jsonObject.getJSONObject("data");
+//        String type = configInfo.getStr("type");
+//        String content = configInfo.getStr("content");
+
+        List<ConfigureContentDto> configureContentDtos = JSONArray.parseArray(jsonObject.getStr("data") , ConfigureContentDto.class) ;
+
         Properties props = null;
-        try {
-            if ("properties".equals(type)) {
-                props = loadProperties(new ByteArrayInputStream(content.getBytes()));
+        if(!CollectionUtils.isEmpty(configureContentDtos)){
+            for(ConfigureContentDto dto : configureContentDtos){
+
+                String type = dto.getType() ;
+                String content = dto.getContent() ;
+
+                if(StringUtils.hasLength(content)){
+                    try {
+                        if ("properties".equals(type)) {
+                            props = loadProperties(new ByteArrayInputStream(content.getBytes()));
+                        }
+                        if ("yaml".equals(type)) {
+                            Map<String, Object> map = new Yaml().loadAs(new ByteArrayInputStream(content.getBytes()), Map.class);
+                            Map<String, Object> parsedMap = generateMap(map);
+                            props = new Properties();
+                            props.putAll(parsedMap);
+                        }
+                    } catch (Exception e) {
+                        errorMsg = e.getMessage();
+                        System.err.println("解析配置出错: " + e.getMessage());
+                    }
+                    if (StrUtil.isNotEmpty(errorMsg)) {
+                        System.err.println(errorMsg);
+                        return null;
+                    }
+                }
             }
-            if ("yaml".equals(type)) {
-                Map<String, Object> map = new Yaml().loadAs(new ByteArrayInputStream(content.getBytes()), Map.class);
-                Map<String, Object> parsedMap = generateMap(map);
-                props = new Properties();
-                props.putAll(parsedMap);
-            }
-        } catch (Exception e) {
-            errorMsg = e.getMessage();
-            System.out.println("解析配置出错: " + e.getMessage());
-        }
-        if (StrUtil.isNotEmpty(errorMsg)) {
-            System.out.println(errorMsg);
-            return null;
-        } else {
+
             long endTime = new Date().getTime();
             double currentTimeInSeconds = (endTime - startTime) / 1000.0; // 将毫秒数转换为秒数
             DecimalFormat df = new DecimalFormat("0.00"); // 创建一个保留两位小数的 DecimalFormat 对象
             String formattedTime = df.format(currentTimeInSeconds);
 
-            System.out.println("获取远程配置成功, 所用时间:  " + formattedTime + " 秒");
+            System.err.println("获取远程配置成功, 所用时间:  " + formattedTime + " 秒");
         }
+
         return props;
     }
 

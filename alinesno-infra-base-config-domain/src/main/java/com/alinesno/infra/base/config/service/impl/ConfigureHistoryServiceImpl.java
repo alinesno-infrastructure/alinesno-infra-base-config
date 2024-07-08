@@ -31,10 +31,10 @@ public class ConfigureHistoryServiceImpl extends IBaseServiceImpl<ConfigureHisto
 		history.setConfigId(configure.getId());
 
 		if(history.getConfVersion() == null || history.getConfVersion() == 0){
-			history.setConfVersion(0);
+			history.setConfVersion(1);
+		}else{
+			history.setConfVersion(history.getConfVersion() + 1);
 		}
-
-		history.setConfVersion(history.getConfVersion() + 1);
 
 		save(history);
 	}

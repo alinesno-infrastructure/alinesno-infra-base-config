@@ -29,4 +29,7 @@ public class ConfigureDto extends BaseDto {
     // 版本
     private String version;
 
+    // 是否选中
+    private boolean selected ;
+
 }

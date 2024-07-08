@@ -37,7 +37,11 @@
 
                <!-- 业务字段-->
                <el-table-column label="环境名称" align="left" width="200" key="name" prop="name" v-if="columns[0].visible" />
-               <el-table-column label="环境标识" align="center" width="200" key="code" prop="code" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+               <el-table-column label="环境标识" align="center" width="200" key="code" prop="code" v-if="columns[2].visible" :show-overflow-tooltip="true" >
+                  <template #default="scope">
+                     <el-button type="primary" bg text> <i class="fa-brands fa-shopify"></i> &nbsp; {{ scope.row.code }}</el-button>
+                  </template>
+               </el-table-column>
                <el-table-column label="环境描述" align="left" key="remark" prop="remark" v-if="columns[1].visible" :show-overflow-tooltip="true" />
 
               <el-table-column label="是否启用" align="center" width="100" key="hasStatus" prop="hasStatus" v-if="columns[1].visible" :show-overflow-tooltip="true" >

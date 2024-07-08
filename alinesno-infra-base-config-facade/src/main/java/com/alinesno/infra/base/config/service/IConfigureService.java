@@ -46,11 +46,11 @@ public interface IConfigureService extends IBaseService<ConfigureEntity> {
      * 添加项目配置
      * @param configureEntity
      */
-    void addProjectConfig(ConfigureEntity configureEntity);
+    void addConfigContent(ConfigureEntity configureEntity);
 
     /**
      *
      * @param configureEntity
      */
-    void updateProjectConfig(ConfigureEntity configureEntity);
+    void updateConfigContent(ConfigureEntity configureEntity);
 }

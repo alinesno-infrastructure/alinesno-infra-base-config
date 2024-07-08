@@ -1,19 +1,26 @@
 package com.alinesno.infra.base.config.service.impl;
 
+import cn.hutool.core.util.IdUtil;
+import com.alinesno.infra.base.config.api.dto.ConfigureContentDto;
+import com.alinesno.infra.base.config.entity.ConfigureEntity;
+import com.alinesno.infra.base.config.entity.ProjectConfigureEntity;
+import com.alinesno.infra.base.config.entity.ProjectEntity;
+import com.alinesno.infra.base.config.enums.ConfigTypeEnum;
+import com.alinesno.infra.base.config.mapper.ProjectMapper;
+import com.alinesno.infra.base.config.service.IConfigureService;
+import com.alinesno.infra.base.config.service.IProjectConfigureService;
+import com.alinesno.infra.base.config.service.IProjectService;
+import com.alinesno.infra.base.config.utils.ContentTypeUtils;
+import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alinesno.infra.base.config.entity.ProjectEntity;
-import com.alinesno.infra.base.config.mapper.ProjectMapper;
-import com.alinesno.infra.base.config.service.IProjectService;
-import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
-import org.sqids.Sqids;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +36,12 @@ import java.util.List;
 public class ProjectServiceImpl extends IBaseServiceImpl<ProjectEntity, ProjectMapper> implements IProjectService {
 
 	private static final String DEFAULT_PROJECT_FIELD = "default" ;
+
+	@Autowired
+	private IProjectConfigureService projectConfigureService ;
+
+	@Autowired
+	private IConfigureService configureService ;
 
 	@Override
 	public void saveDocumentType(String projectId, String documentStr) {
@@ -46,16 +59,15 @@ public class ProjectServiceImpl extends IBaseServiceImpl<ProjectEntity, ProjectM
 		long count = count(wrapper) ;
 
 		if(count == 0) {  // 账户应用为空
-			Sqids sqids=Sqids.builder().build();
-			String code = sqids.encode(Arrays.asList(1L,2L,3L)); // "86Rf07"
+			String code = IdUtil.getSnowflakeNextIdStr() ;
 
 			ProjectEntity project = new ProjectEntity() ;
 
 			project.setOperatorId(userId);
 			project.setFieldProp(DEFAULT_PROJECT_FIELD);
 
-			project.setName("默认日志应用");
-			project.setRemark("包含所有的日志渠道查看权限，用于开发和验证场景");
+			project.setName("默认配置应用");
+			project.setRemark("包含所有的配置渠道查看权限，用于开发和验证场景");
 			project.setCode(code);
 
 			save(project) ;
@@ -102,10 +114,73 @@ public class ProjectServiceImpl extends IBaseServiceImpl<ProjectEntity, ProjectM
 	public List<ProjectEntity> latestList(long userId) {
 
 		LambdaQueryWrapper<ProjectEntity> wrapper = new LambdaQueryWrapper<>() ;
-//		wrapper.eq(ManagerProjectEntity::getOperatorId , userId) ;
 		wrapper.orderByDesc(ProjectEntity::getAddTime) ;
 
 		return list(wrapper) ;
 	}
+
+	@Override
+	public void updateProjectConfigure(long id, String config) {
+
+		List<Long> configIds = ContentTypeUtils.convertToLongList(config) ;
+		ProjectEntity project = getById(id) ;
+
+		// 先删除之前的配置
+		LambdaUpdateWrapper<ProjectConfigureEntity> wrapper = new LambdaUpdateWrapper<>() ;
+		wrapper.eq(ProjectConfigureEntity::getProjectId , id) ;
+		projectConfigureService.remove(wrapper);
+
+		// 添加新的配置
+		List<ProjectConfigureEntity> entities = new ArrayList<>() ;
+		configIds.forEach(item -> {
+			ProjectConfigureEntity e = new ProjectConfigureEntity() ;
+			e.setProjectId(id);
+			e.setConfigureId(item);
+			entities.add(e) ;
+		});
+		projectConfigureService.saveBatch(entities) ;
+
+		// 更新配置总数
+		project.setCountConfig(entities.size());
+		update(project) ;
+	}
+
+	@SneakyThrows
+	@Override
+	public List<ConfigureContentDto> getConfigContent(ProjectEntity project, String env){
+
+		// 获取到所有的配置id
+		LambdaQueryWrapper<ProjectConfigureEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ProjectConfigureEntity::getProjectId , project.getId()) ;
+		List<ProjectConfigureEntity> list = projectConfigureService.list(wrapper);
+
+		List<Long> configIds = new ArrayList<>() ;
+		list.forEach(item -> {
+			configIds.add(item.getConfigureId()) ;
+		});
+		List<ConfigureEntity> allConfigureEntities = configureService.listByIds(configIds) ;
+
+		// 过滤配置
+		List<ConfigureContentDto> configureEntities = new ArrayList<>() ;
+		allConfigureEntities.forEach(item -> {
+			if(item.getEnv().equals(env)){
+				ConfigureContentDto configureContentDto = new ConfigureContentDto() ;
+				configureContentDto.setContent(item.getContents());
+				configureContentDto.setType(ConfigTypeEnum.getTypeByCode(item.getType()));
+				configureEntities.add(configureContentDto) ;
+			}
+		});
+
+		// 拼接yaml配置文件
+        return configureEntities;
+	}
+
+	@Override
+	public List<ProjectConfigureEntity> queryProjectConfig(long projectId) {
+		LambdaQueryWrapper<ProjectConfigureEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ProjectConfigureEntity::getProjectId , projectId) ;
+        return projectConfigureService.list(wrapper);
+	}
+
 
 }

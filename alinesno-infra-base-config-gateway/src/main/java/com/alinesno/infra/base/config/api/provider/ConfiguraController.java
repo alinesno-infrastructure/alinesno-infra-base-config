@@ -1,9 +1,8 @@
 package com.alinesno.infra.base.config.api.provider;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
-import com.alinesno.infra.base.config.api.dto.ConfigurationRequest;
+import com.alinesno.infra.base.config.api.dto.ConfigureContentDto;
 import com.alinesno.infra.base.config.api.dto.ConfigureDto;
 import com.alinesno.infra.base.config.core.tools.AesEncryptionUtils;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
@@ -11,7 +10,9 @@ import com.alinesno.infra.base.config.entity.ProjectEntity;
 import com.alinesno.infra.base.config.enums.ConfigTypeEnum;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.base.config.service.IProjectService;
+import com.alinesno.infra.common.facade.enums.HasStatusEnums;
 import com.alinesno.infra.common.facade.response.AjaxResult;
+import com.alinesno.infra.common.web.log.annotation.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,49 +37,42 @@ public class ConfiguraController {
     private IConfigureService configuraService;
 
     @Resource
-    private IConfigureService appConfigsService;
-
-    @Resource
     private IProjectService appsService;
 
-    @GetMapping("/getConfig")
-    public AjaxResult getConfig(ConfigurationRequest configurationRequest){
-        if(ObjectUtil.isNull(configurationRequest) || ObjectUtil.isNull(configurationRequest.getIdentity())
-                || ObjectUtil.isNull(configurationRequest.getOpenId())){
-            return AjaxResult.error("请求参数缺失");
-        }
+    @Log(title = "通过项目标识获取配置信息")
+    @GetMapping("/getConfigByProject")
+    public AjaxResult getConfigByProject(@RequestParam String identity ,
+                                         @RequestParam String env){
 
-        String openId = configurationRequest.getOpenId();
-        List<ProjectEntity> appEntityList = appsService.list(new LambdaQueryWrapper<ProjectEntity>().eq(ProjectEntity::getOpenKey,openId));
+        LambdaQueryWrapper<ProjectEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ProjectEntity::getCode, identity);
+        ProjectEntity project = appsService.getOne(wrapper);
 
-        if(CollectionUtil.isEmpty(appEntityList)){
-            return AjaxResult.error("不存在的应用");
-        }
+        Assert.notNull(project , "配置查询为空");
+        Assert.isTrue(project.getHasStatus() == HasStatusEnums.LEGAL.value , "配置已禁用");
 
-        ProjectEntity app = appEntityList.get(0);
+        List<ConfigureContentDto> content = appsService.getConfigContent(project , env) ;
+
+        return AjaxResult.success("获取远程配置", content);
+    }
+
+    @Log(title = "通过配置标识获取配置信息")
+    @GetMapping("/getConfigByIdentity")
+    public AjaxResult getConfigByIdentity(@RequestParam String identity){
 
         LambdaQueryWrapper<ConfigureEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ConfigureEntity::getIdentity, identity);
 
-        wrapper.eq(ConfigureEntity::getProjectId , app.getId());
-        wrapper.eq(ConfigureEntity::getIdentity, configurationRequest.getIdentity());
+        ConfigureEntity configure = configuraService.getOne(wrapper);
+        Assert.notNull(configure , "配置查询为空");
 
-        List<ConfigureEntity> entityList = appConfigsService.list(wrapper);
+        Assert.isTrue(configure.getHasStatus() == HasStatusEnums.LEGAL.value , "配置已禁用");
 
-        if(CollectionUtil.isEmpty(entityList)){
-            return AjaxResult.error("无此配置或者该配置已被清理");
-        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", ConfigTypeEnum.getTypeByCode(configure.getType())) ;
+        jsonObject.put("content", configure.getContents());
 
-        ConfigureEntity entity = entityList.get(0);
-        if(entity.getType() != 1 && entity.getType() != 2) {
-            return AjaxResult.error("数据错误，不存在的类型");
-        }
-
-        cn.hutool.json.JSONObject jsonObject = new cn.hutool.json.JSONObject();
-        jsonObject.set("type", Arrays.stream(ConfigTypeEnum.values()).filter(item -> item.getCode() == entity.getType()) .toList().get(0).getType());
-        jsonObject.set("content", entity.getContents());
-
-
-        return AjaxResult.success("获取远程配置成功", jsonObject);
+        return AjaxResult.success("获取远程配置", jsonObject);
     }
 
     /**

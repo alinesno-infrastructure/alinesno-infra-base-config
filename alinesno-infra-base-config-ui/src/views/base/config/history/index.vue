@@ -58,10 +58,10 @@
 
                <el-table-column label="配置类型" align="center" key="type" prop="type" v-if="columns[4].visible" :show-overflow-tooltip="true">
                      <template #default="scope">
-                        <div style="margin-top: 5px;" v-if="scope.row.type == 0">
+                        <div style="margin-top: 5px;" v-if="scope.row.type == 1">
                            <el-button type="primary" bg text> <i class="fa-solid fa-credit-card"></i> Properties</el-button>
                         </div>
-                        <div style="margin-top: 5px;" v-if="scope.row.type == 1">
+                        <div style="margin-top: 5px;" v-if="scope.row.type == 3 || scope.row.type == 2">
                            <el-button type="success" bg text> <i class="fa-brands fa-shopify"></i> Yaml</el-button>
                         </div>
                         <div style="margin-top: 5px;" v-if="scope.row.type == 4">

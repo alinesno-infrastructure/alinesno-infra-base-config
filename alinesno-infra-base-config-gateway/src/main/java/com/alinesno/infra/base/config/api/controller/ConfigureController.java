@@ -1,7 +1,15 @@
 package com.alinesno.infra.base.config.api.controller;
 
+import cn.hutool.core.util.IdUtil;
+import com.alinesno.infra.base.config.api.dto.ConfigureDto;
+import com.alinesno.infra.base.config.entity.ConfigEnvEntity;
 import com.alinesno.infra.base.config.entity.ConfigureEntity;
+import com.alinesno.infra.base.config.entity.ProjectConfigureEntity;
+import com.alinesno.infra.base.config.entity.ProjectEntity;
+import com.alinesno.infra.base.config.service.IConfigEnvService;
+import com.alinesno.infra.base.config.service.IConfigureCatalogService;
 import com.alinesno.infra.base.config.service.IConfigureService;
+import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
@@ -11,11 +19,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理与ConfigureEntity相关的请求的Controller。
@@ -34,6 +49,15 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
     @Autowired
     private IConfigureService service;
 
+    @Autowired
+    private IConfigEnvService envService ;
+
+    @Autowired
+    private IProjectService projectService ;
+
+    @Autowired
+    private IConfigureCatalogService catalogService ;
+
     /**
      * 获取ConfigureEntity的DataTables数据。
      *
@@ -46,7 +70,66 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-        return this.toPage(model, this.getFeign(), page);
+
+        // TODO 临时处理，后期优化
+        String projectId = request.getParameter("projectId") ;
+        if(StringUtils.isNotBlank(projectId)){
+            Map<String , Object> map = new HashMap<>() ;
+            map.put("projectId" , projectId) ;
+            page.setCondition(map) ;
+
+            TableDataInfo tableDataInfo =  this.toPage(model, this.getFeign(), page);
+            List<ConfigureEntity> configureEntities = (List<ConfigureEntity>) tableDataInfo.getRows();
+            List<ConfigureDto> dtos = new ArrayList<>() ;
+
+            List<ProjectConfigureEntity> projectConfigureEntities = projectService.queryProjectConfig(Long.parseLong(projectId)) ;
+
+            configureEntities.forEach(item -> {
+                ConfigureDto dto = new ConfigureDto() ;
+
+                BeanUtils.copyProperties(item , dto);
+                dto.setSelected(checkSelect(item , projectConfigureEntities));
+
+                dtos.add(dto) ;
+            });
+            tableDataInfo.setRows(dtos);
+
+            return tableDataInfo ;
+        }else{
+            return this.toPage(model, this.getFeign(), page);
+        }
+
+    }
+
+    // 判断是否选中
+    private boolean checkSelect(ConfigureEntity item, List<ProjectConfigureEntity> projectConfigureEntities) {
+        boolean isSelect = false ;
+        for(ProjectConfigureEntity configure : projectConfigureEntities){
+            if(item.getId().equals(configure.getConfigureId())){
+                isSelect = true ;
+                break ;
+            }
+        };
+        return isSelect ;
+    }
+
+    /**
+     * 获取项目配置列表
+     *
+     * @return 包含项目配置列表的ResponseData对象
+     */
+    @GetMapping("/getProjectAndEnv")
+    public AjaxResult getProjectAndEnv() {
+
+        AjaxResult result = AjaxResult.success("获取环境配置成功.");
+
+        List<ProjectEntity> projectList = projectService.list();
+        List<ConfigEnvEntity> envList = envService.list();
+
+        result.put("envList" , envList) ;
+        result.put("projectList" , projectList) ;
+
+        return result ;
     }
 
     /**
@@ -55,8 +138,8 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
      * @return 包含项目配置列表的ResponseData对象
      */
     @ApiOperation("获取项目配置列表")
-    @GetMapping("/getProjectConfig")
-    public AjaxResult getProjectConfig(Long configId) {
+    @GetMapping("/getConfigContent")
+    public AjaxResult getConfigContent(Long configId) {
         ConfigureEntity configure = service.getById(configId);
         return AjaxResult.success(configure);
     }
@@ -68,9 +151,9 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
      * @return 包含操作结果的ResponseData对象
      */
     @ApiOperation("添加项目配置")
-    @PostMapping("/addProjectConfig")
-    public AjaxResult addProjectConfig(@RequestBody ConfigureEntity configureEntity) {
-        service.addProjectConfig(configureEntity);
+    @PostMapping("/addConfigContent")
+    public AjaxResult addConfigContent(@RequestBody ConfigureEntity configureEntity) {
+        service.addConfigContent(configureEntity);
         return AjaxResult.success("项目配置添加成功");
     }
 
@@ -81,10 +164,21 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
      * @return 包含操作结果的ResponseData对象
      */
     @ApiOperation("更新项目配置")
-    @PutMapping("/updateProjectConfig")
-    public AjaxResult updateProjectConfig(@RequestBody ConfigureEntity configureEntity) {
-        service.updateProjectConfig(configureEntity);
+    @PutMapping("/updateConfigContent")
+    public AjaxResult updateConfigContent(@RequestBody ConfigureEntity configureEntity) {
+        service.updateConfigContent(configureEntity);
         return AjaxResult.success("项目配置更新成功");
+    }
+
+    @Override
+    public AjaxResult save(Model model, @RequestBody ConfigureEntity entity) throws Exception {
+        entity.setIdentity(IdUtil.getSnowflakeNextId()+"");
+        return super.save(model, entity);
+    }
+
+    @GetMapping("/catalogTreeSelect")
+    public AjaxResult catalogTreeSelect(){
+        return AjaxResult.success("success" , catalogService.selectCatalogTreeList()) ;
     }
 
     @Override

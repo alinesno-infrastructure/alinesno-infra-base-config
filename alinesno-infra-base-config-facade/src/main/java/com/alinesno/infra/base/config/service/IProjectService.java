@@ -1,5 +1,7 @@
 package com.alinesno.infra.base.config.service;
 
+import com.alinesno.infra.base.config.api.dto.ConfigureContentDto;
+import com.alinesno.infra.base.config.entity.ProjectConfigureEntity;
 import com.alinesno.infra.base.config.entity.ProjectEntity;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
@@ -44,5 +46,26 @@ public interface IProjectService extends IBaseService<ProjectEntity> {
      * @return
      */
     List<ProjectEntity> latestList(long userId);
+
+    /**
+     * 更新项目配置信息
+     * @param id
+     * @param config
+     */
+    void updateProjectConfigure(long id, String config);
+
+    /**
+     * 获取项目配置
+     *
+     * @return
+     */
+    List<ConfigureContentDto> getConfigContent(ProjectEntity projectCode , String env);
+
+    /**
+     * 查询项目配置信息
+     * @param projectId
+     * @return
+     */
+    List<ProjectConfigureEntity> queryProjectConfig(long projectId);
 
 }
