@@ -30,5 +30,6 @@ public class AppConfiguration implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
        initDataService.initEnv(0L);
+       initDataService.initCatalog(0L);
     }
 }

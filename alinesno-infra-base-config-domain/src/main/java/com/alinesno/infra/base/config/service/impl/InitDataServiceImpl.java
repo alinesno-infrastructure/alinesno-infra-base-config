@@ -1,6 +1,8 @@
 package com.alinesno.infra.base.config.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.config.entity.ConfigEnvEntity;
+import com.alinesno.infra.base.config.entity.ConfigureCatalogEntity;
 import com.alinesno.infra.base.config.service.IConfigEnvService;
 import com.alinesno.infra.base.config.service.IConfigureCatalogService;
 import com.alinesno.infra.base.config.service.IConfigureService;
@@ -101,6 +103,74 @@ public class InitDataServiceImpl implements IInitDataService {
     @Override
     public void initCatalog(long groupId) {
 
+        long count = catalogService.count() ;
+        long parentId = IdUtil.getSnowflakeNextId() ;
+
+        List<ConfigureCatalogEntity> configList = new ArrayList<>();
+
+        // 创建并初始化公共配置文件实例
+        ConfigureCatalogEntity parentConfig = new ConfigureCatalogEntity();
+        parentConfig.setIcon("common_icon.png");
+        parentConfig.setName("分布式配置中心");
+        parentConfig.setOrderNum(1);
+        parentConfig.setDescription("存放公共配置");
+        parentConfig.setConfigureCount(0);
+        parentConfig.setAncestors("");
+        parentConfig.setId(parentId);
+        parentConfig.setParentId(null);
+
+        // 创建并初始化公共配置文件实例
+        ConfigureCatalogEntity commonConfig = new ConfigureCatalogEntity();
+        commonConfig.setIcon("common_icon.png");
+        commonConfig.setName("公共配置文件");
+        commonConfig.setOrderNum(1);
+        commonConfig.setDescription("存放公共配置");
+        commonConfig.setConfigureCount(0);
+        commonConfig.setAncestors("");
+        commonConfig.setParentId(parentId);
+
+        // 创建并初始化中间件配置文件实例
+        ConfigureCatalogEntity middlewareConfig = new ConfigureCatalogEntity();
+        middlewareConfig.setIcon("middleware_icon.png");
+        middlewareConfig.setName("中间件配置文件");
+        middlewareConfig.setOrderNum(2);
+        middlewareConfig.setDescription("存放中间件配置");
+        middlewareConfig.setConfigureCount(0);
+        middlewareConfig.setAncestors("");
+        middlewareConfig.setParentId(parentId);
+
+        // 创建并初始化项目配置文件实例
+        ConfigureCatalogEntity projectConfig = new ConfigureCatalogEntity();
+        projectConfig.setIcon("project_icon.png");
+        projectConfig.setName("项目配置文件");
+        projectConfig.setOrderNum(3);
+        projectConfig.setDescription("用于项目具体配置文件");
+        projectConfig.setConfigureCount(0);
+        projectConfig.setAncestors("");
+        projectConfig.setParentId(parentId);
+
+        // 创建并初始化其它配置文件实例
+        ConfigureCatalogEntity otherConfig = new ConfigureCatalogEntity();
+        otherConfig.setIcon("other_icon.png");
+        otherConfig.setName("其它配置文件");
+        otherConfig.setOrderNum(4);
+        otherConfig.setDescription("用于第三方配置文件");
+        otherConfig.setConfigureCount(0);
+        otherConfig.setAncestors("");
+        otherConfig.setParentId(parentId);
+
+        // 将所有对象添加到List中
+        configList.add(parentConfig);
+        configList.add(commonConfig);
+        configList.add(middlewareConfig);
+        configList.add(projectConfig);
+        configList.add(otherConfig);
+
+
+        if(count < configList.size()) {
+            catalogService.remove(new LambdaQueryWrapper<>()) ;
+            catalogService.saveBatch(configList);
+        }
     }
 
     @Override
