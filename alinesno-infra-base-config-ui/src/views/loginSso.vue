@@ -57,10 +57,10 @@ function doLoginByTicket(ticket) {
     useUserStore().doLoginByTicket(ticket).then((res) => {
       console.log('/sso/getSsoAuthUrl 返回数据', res);
 
-      debugger
+      // debugger
 
-      localStorage.setItem('satoken', res.data);
-      setToken(res.adminToken);
+      // localStorage.setItem('satoken', res.data);
+      setToken(res.AdminToken);
 
       location.href = decodeURIComponent(back);
     });
