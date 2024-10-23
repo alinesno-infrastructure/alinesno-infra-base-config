@@ -11,10 +11,15 @@ import com.alinesno.infra.base.config.service.IConfigureCatalogService;
 import com.alinesno.infra.base.config.service.IConfigureService;
 import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionQuery;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionSave;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionScope;
+import com.alinesno.infra.common.facade.datascope.PermissionQuery;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -66,6 +71,7 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
      * @param page DatatablesPageBean对象。
      * @return 包含DataTables数据的TableDataInfo对象。
      */
+    @DataPermissionScope
     @ResponseBody
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
@@ -118,13 +124,21 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
      *
      * @return 包含项目配置列表的ResponseData对象
      */
+    @DataPermissionQuery
     @GetMapping("/getProjectAndEnv")
-    public AjaxResult getProjectAndEnv() {
+    public AjaxResult getProjectAndEnv(PermissionQuery query) {
 
         AjaxResult result = AjaxResult.success("获取环境配置成功.");
 
-        List<ProjectEntity> projectList = projectService.list();
-        List<ConfigEnvEntity> envList = envService.list();
+        LambdaQueryWrapper<ProjectEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.setEntityClass(ProjectEntity.class);
+        query.toWrapper(queryWrapper);
+        List<ProjectEntity> projectList = projectService.list(queryWrapper);
+
+        LambdaQueryWrapper<ConfigEnvEntity> eQueryWrapper = new LambdaQueryWrapper<>();
+        eQueryWrapper.setEntityClass(ConfigEnvEntity.class);
+        query.toWrapper(eQueryWrapper);
+        List<ConfigEnvEntity> envList = envService.list(eQueryWrapper);
 
         result.put("envList" , envList) ;
         result.put("projectList" , projectList) ;
@@ -170,15 +184,17 @@ public class ConfigureController extends BaseController<ConfigureEntity, IConfig
         return AjaxResult.success("项目配置更新成功");
     }
 
+    @DataPermissionSave
     @Override
     public AjaxResult save(Model model, @RequestBody ConfigureEntity entity) throws Exception {
         entity.setIdentity(IdUtil.getSnowflakeNextId()+"");
         return super.save(model, entity);
     }
 
+    @DataPermissionQuery
     @GetMapping("/catalogTreeSelect")
-    public AjaxResult catalogTreeSelect(){
-        return AjaxResult.success("success" , catalogService.selectCatalogTreeList()) ;
+    public AjaxResult catalogTreeSelect(PermissionQuery query){
+        return AjaxResult.success("success" , catalogService.selectCatalogTreeList(query)) ;
     }
 
     @Override
