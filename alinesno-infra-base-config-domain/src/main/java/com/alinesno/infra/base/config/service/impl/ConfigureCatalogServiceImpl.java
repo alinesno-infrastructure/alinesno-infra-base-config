@@ -6,6 +6,8 @@ import com.alinesno.infra.base.config.mapper.ConfigureCatalogMapper;
 import com.alinesno.infra.base.config.service.IConfigureCatalogService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.core.utils.StringUtils;
+import com.alinesno.infra.common.facade.datascope.PermissionQuery;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,13 @@ import java.util.stream.Collectors;
 public class ConfigureCatalogServiceImpl extends IBaseServiceImpl<ConfigureCatalogEntity, ConfigureCatalogMapper> implements IConfigureCatalogService {
 
     @Override
-    public List<ConfigureCatalogEntity> selectCatalogList(ConfigureCatalogEntity ConfigureCatalog) {
+    public List<ConfigureCatalogEntity> selectCatalogList(ConfigureCatalogEntity ConfigureCatalog, PermissionQuery query) {
 
-        List<ConfigureCatalogEntity> list = list() ;
+        LambdaQueryWrapper<ConfigureCatalogEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.setEntityClass(ConfigureCatalogEntity.class) ;
+        query.toWrapper(queryWrapper);
+
+        List<ConfigureCatalogEntity> list = list(queryWrapper) ;
 
         if(list == null || list.isEmpty()){
 
@@ -56,9 +62,13 @@ public class ConfigureCatalogServiceImpl extends IBaseServiceImpl<ConfigureCatal
     }
 
     @Override
-    public List<TreeSelectDto> selectCatalogTreeList() {
+    public List<TreeSelectDto> selectCatalogTreeList(PermissionQuery query) {
 
-        List<ConfigureCatalogEntity> deptTrees = buildDeptTree(list());
+        LambdaQueryWrapper<ConfigureCatalogEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.setEntityClass(ConfigureCatalogEntity.class) ;
+        query.toWrapper(queryWrapper);
+
+        List<ConfigureCatalogEntity> deptTrees = buildDeptTree(list(queryWrapper));
         return deptTrees.stream().map(TreeSelectDto::new).collect(Collectors.toList());
     }
 
