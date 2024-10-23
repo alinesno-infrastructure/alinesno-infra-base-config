@@ -3,6 +3,7 @@ package com.alinesno.infra.base.config.api.controller;
 import com.alinesno.infra.base.config.entity.ApiRecordEntity;
 import com.alinesno.infra.base.config.service.IApiRecordService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionScope;
 import com.alinesno.infra.common.extend.excel.utils.ExcelUtil;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
@@ -14,6 +15,7 @@ import com.alinesno.infra.common.web.log.enums.BusinessType;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,7 @@ public class ApiRecordController extends BaseController<ApiRecordEntity, IApiRec
      * @param page    DatatablesPageBean对象。
      * @return 包含DataTables数据的TableDataInfo对象。
      */
+    @DataPermissionScope
     @ResponseBody
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
