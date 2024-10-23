@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       if (useUserStore().roles.length === 0) {
-        isRelogin.show = true
+        isRelogin.show = false 
         // 判断当前用户是否已拉取完user_info信息
         useUserStore().getInfo().then(() => {
           isRelogin.show = false
