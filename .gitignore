@@ -42,6 +42,7 @@ hs_err_pid*
 target
 .DS_Store
 /.metadata/
+yarn.lock
 
 # nodejs
 node
