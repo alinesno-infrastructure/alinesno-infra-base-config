@@ -100,6 +100,16 @@
       <el-dialog :title="title" v-model="open" width="600px" append-to-body>
          <el-form ref="deptRef" :model="form" :rules="rules" label-width="80px">
             <el-row>
+               <el-col :span="24">
+                  <el-form-item label="所属项目" prop="projectId">
+                     <el-option
+                        v-for="item in projectList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                        />
+                  </el-form-item>
+               </el-col>   
                <el-col :span="24" v-if="form.parentId !== 0">
                   <el-form-item label="上级分类" prop="parentId">
                      <el-tree-select
@@ -152,11 +162,13 @@
 
 <script setup name="Catalog">
 import { listCatalog, getCatalog, delCatalog, addCatalog, updateCatalog, listCatalogExcludeChild } from "@/api/base/config/catalog";
+import { listAllProject } from "@/api/base/config/project";
 
 const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
 
 const deptList = ref([]);
+const projectList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -280,5 +292,14 @@ function handleDelete(row) {
   }).catch(() => {});
 }
 
+/** 列出所有项目 */
+function handleListAllProject() {
+  listAllProject().then(response => {
+    projectList.value = response.data;
+  });
+}
+
 getList();
+handleListAllProject() ; 
+
 </script>
