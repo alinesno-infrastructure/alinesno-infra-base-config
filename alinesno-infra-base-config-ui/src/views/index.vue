@@ -10,22 +10,14 @@
           <div class="icon">
             <div class="title">
                   {{ currentEnvClusterObj.appName }}
-              <div class="cluster-info">
-                <span><i class="el-icon-monitor"></i>
-                  {{ currentEnvClusterObj.clusterName }}
-                </span>
-              </div>
             </div>
             <div class="title-desc">
-              集群状态展示集群资源的概览和详情，您可以查看集群资源的监控数据和用量排行情况。
+              {{ currentEnvClusterObj.clusterName }}
             </div>
           </div>
         </div>
       </el-col>
     </el-row>
-
-    <!-- 应用统计 -->
-    <!-- <OperationWorkspaceCountStaitcs /> -->
 
     <!-- 应用套件和状态 -->
     <OperationWorkspaceService />
