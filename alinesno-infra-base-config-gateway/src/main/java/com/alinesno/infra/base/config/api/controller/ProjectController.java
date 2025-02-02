@@ -1,9 +1,13 @@
 package com.alinesno.infra.base.config.api.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.config.entity.ProjectEntity;
 import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionQuery;
+import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionSave;
 import com.alinesno.infra.common.extend.datasource.annotation.DataPermissionScope;
+import com.alinesno.infra.common.facade.datascope.PermissionQuery;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
 import com.alinesno.infra.common.facade.response.AjaxResult;
@@ -48,17 +52,6 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-
-        log.debug("page = {}", ToStringBuilder.reflectionToString(page));
-
-        long userId = 1L ; // CurrentAccountJwt.getUserId();
-        long count = service.count(new LambdaQueryWrapper<ProjectEntity>().eq(ProjectEntity::getOperatorId , userId));
-
-        // 初始化默认应用
-        if (count == 0) {
-            service.initDefaultApp(userId);
-        }
-
         return this.toPage(model, this.getFeign(), page);
     }
 
@@ -71,6 +64,27 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
         log.debug("config = {}" , config);
         service.updateProjectConfigure(id , config) ;
         return ok();
+    }
+
+    @DataPermissionSave
+    @Override
+    public AjaxResult save(Model model, @RequestBody ProjectEntity entity) throws Exception {
+        entity.setCode(IdUtil.nanoId(8));
+        log.debug("project info = {}" , entity);
+        return super.save(model, entity);
+    }
+
+    /**
+     * 查询所有的项目
+     * @return
+     */
+    @DataPermissionQuery
+    @GetMapping("/listAllProject")
+    public AjaxResult listAllProject(PermissionQuery permissionQuery){
+        LambdaQueryWrapper<ProjectEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.setEntityClass(ProjectEntity.class);
+        permissionQuery.toWrapper(queryWrapper);
+        return AjaxResult.success(service.list(queryWrapper));
     }
 
     @Override
