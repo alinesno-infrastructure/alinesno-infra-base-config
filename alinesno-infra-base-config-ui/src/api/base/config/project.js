@@ -21,11 +21,20 @@ var managerUrl = {
     removeUrl: prefix + "delete" ,
     exportUrl: prefix + "exportExcel",
     choiceProject: prefix + "choiceProject",
+    listAllProject: prefix + "listAllProject" ,
     changeField: prefix + "changeField",
     defaultProject: prefix + "defaultProject",
     downloadfile: prefix + "downloadfile",
     updateProjectConfigure: prefix + "updateProjectConfigure",
     currentProject: prefix + "currentProject",
+}
+
+// 列出所有项目
+export function listAllProject(){
+  return request({
+      url: managerUrl.listAllProject ,
+      method: 'get'
+  })
 }
 
 // 更新应用的配置列表
