@@ -22,7 +22,7 @@ const router = useRouter();
 
 // 菜单列表
 const menuItems = ref([
-  {id:'7' , icon:'fa-brands fa-slack' , link:'/base/config/project/index' , desc:'应用管理'},
+  {id:'7' , icon:'fa-brands fa-slack' , link:'/base/config/project/index' , desc:'项目管理'},
   {id:'3' , icon:'fa-solid fa-list-check' , link:'/base/config/configure/index' , desc:'配置管理'},
   {id:'9' , icon:'fa-brands fa-skype' , link:'/base/config/catalog/index' , desc:'业务分类'},
   {id:'6' , icon:'fa-solid fa-file-word' , link:'/base/config/env/index' , desc:'环境管理'},
