@@ -90,7 +90,7 @@ export const constantRoutes = [
         path: '/base/config/project/index',
         component: () => import('@/views/base/config/project/index'),
         name: '/base/config/project/index',
-        meta: { title: '应用管理', icon: 'dashboard', affix: true }
+        meta: { title: '项目管理', icon: 'dashboard', affix: true }
       }, 
       {
         path: '/base/config/configure/index',
