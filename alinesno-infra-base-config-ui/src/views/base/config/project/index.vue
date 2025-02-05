@@ -39,7 +39,7 @@
               <el-table-column label="项目名称" align="left" width="200" key="name" prop="name" v-if="columns[0].visible">
                  <template #default="scope">
                      <div style="font-size:14px;color:#3b5998">
-                        <i class="fa-solid fa-file-word" />&nbsp;{{ scope.row.name}}
+                        <i :class="scope.row.icon" />&nbsp;{{ scope.row.name}}
                      </div>
                  </template>
               </el-table-column>
@@ -95,6 +95,19 @@
         <el-form :model="form" :rules="rules" ref="databaseRef" label-width="100px">
            <el-row>
               <el-col :span="24">
+               <el-form-item label="图标" prop="icon">
+                  <el-radio-group v-model="form.icon">
+                     <el-radio v-for="item in icons"
+                        :value="item.icon"
+                        :key="item.icon"
+                        :label="item.icon"
+                        >
+                        <i :class="item.icon"></i>
+                     </el-radio>
+                     </el-radio-group>
+                  </el-form-item>
+              </el-col>   
+              <el-col :span="24">
                  <el-form-item label="项目名称" prop="name">
                     <el-input v-model="form.name" placeholder="请输入项目名称" maxlength="50" />
                  </el-form-item>
@@ -119,7 +132,7 @@
 
 
      <!-- 文档列表 -->
-     <el-dialog :title="title" v-model="openDocumentTypeDialog" width="1024px" append-to-body>
+     <el-dialog :title="title" v-model="openDocumentTypeDialog" width="900px" append-to-body>
 
         <TypeList ref="ConfigurePanel" :currentProjectId="currentProjectId" />
 
@@ -189,12 +202,25 @@ const data = reactive({
   },
   rules: {
      name: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
+     icon: [{ required: true, message: "项目图标为空", trigger: "blur" }] , 
      remark: [{ required: true, message: "连接不能为空", trigger: "blur" }],
      description: [{ required: true, message: "类型不能为空", trigger: "blur" }] 
   }
 });
 
 const { queryParams, form, rules } = toRefs(data);
+
+const icons = ref([
+  { id: 1, icon: 'fa-solid fa-charging-station'} ,
+  { id: 1, icon: 'fa-solid fa-truck'} ,
+  { id: 2, icon: 'fa-solid fa-paper-plane'} ,
+  { id: 2, icon: 'fa-solid fa-ship'} ,
+  { id: 3, icon: 'fa-solid fa-chart-column'},
+  { id: 4, icon: 'fa-solid fa-server'}, 
+  { id: 5, icon: 'fa-solid fa-box-open'}, 
+  { id: 8, icon: 'fa-solid fa-file-invoice-dollar'}, 
+  { id: 9, icon: 'fa-solid fa-user-tie'},
+]);
 
 /** 查询项目列表 */
 function getList() {
