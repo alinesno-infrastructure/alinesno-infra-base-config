@@ -2,6 +2,7 @@ package com.alinesno.infra.base.config.entity;
 import java.util.Date;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import lombok.Data;
 
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
@@ -18,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 @TableName("config_audit")
+@Table(comment = "配置操作审计")
 @Data
 public class ConfigAuditEntity extends InfraBaseEntity {
  
