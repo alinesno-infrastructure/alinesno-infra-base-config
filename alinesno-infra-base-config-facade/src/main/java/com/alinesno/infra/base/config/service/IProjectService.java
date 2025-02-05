@@ -3,6 +3,7 @@ package com.alinesno.infra.base.config.service;
 import com.alinesno.infra.base.config.api.dto.ConfigureContentDto;
 import com.alinesno.infra.base.config.entity.ProjectConfigureEntity;
 import com.alinesno.infra.base.config.entity.ProjectEntity;
+import com.alinesno.infra.common.facade.response.AjaxResult;
 import com.alinesno.infra.common.facade.services.IBaseService;
 
 import java.util.List;
@@ -68,4 +69,9 @@ public interface IProjectService extends IBaseService<ProjectEntity> {
      */
     List<ProjectConfigureEntity> queryProjectConfig(long projectId);
 
+    /**
+     * 保存项目
+      * @param entity
+     */
+    void saveProject(ProjectEntity entity);
 }
