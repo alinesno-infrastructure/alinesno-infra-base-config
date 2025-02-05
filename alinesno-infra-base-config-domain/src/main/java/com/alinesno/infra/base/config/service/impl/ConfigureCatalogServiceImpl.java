@@ -2,13 +2,16 @@ package com.alinesno.infra.base.config.service.impl;
 
 import com.alinesno.infra.base.config.api.dto.TreeSelectDto;
 import com.alinesno.infra.base.config.entity.ConfigureCatalogEntity;
+import com.alinesno.infra.base.config.entity.ProjectEntity;
 import com.alinesno.infra.base.config.mapper.ConfigureCatalogMapper;
 import com.alinesno.infra.base.config.service.IConfigureCatalogService;
+import com.alinesno.infra.base.config.service.IProjectService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.alinesno.infra.common.core.utils.StringUtils;
 import com.alinesno.infra.common.facade.datascope.PermissionQuery;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +28,9 @@ import java.util.stream.Collectors;
 @Service
 public class ConfigureCatalogServiceImpl extends IBaseServiceImpl<ConfigureCatalogEntity, ConfigureCatalogMapper> implements IConfigureCatalogService {
 
+    @Autowired
+    private IProjectService projectService ;
+
     @Override
     public List<ConfigureCatalogEntity> selectCatalogList(ConfigureCatalogEntity ConfigureCatalog, PermissionQuery query) {
 
@@ -35,16 +41,22 @@ public class ConfigureCatalogServiceImpl extends IBaseServiceImpl<ConfigureCatal
         List<ConfigureCatalogEntity> list = list(queryWrapper) ;
 
         if(list == null || list.isEmpty()){
-
             list = new ArrayList<>() ;
-
-            // 默认有一个选项是父类
-            ConfigureCatalogEntity parent = new ConfigureCatalogEntity() ;
-            parent.setName("父类对象");
-            parent.setId(0L);
-
-            list.add(parent) ;
         }
+
+//        LambdaQueryWrapper<ProjectEntity> projectQueryWrapper = new LambdaQueryWrapper<>();
+//        projectQueryWrapper.setEntityClass(ProjectEntity.class) ;
+//        query.toWrapper(projectQueryWrapper);
+//
+//        List<ProjectEntity> projectList = projectService.list(projectQueryWrapper) ;
+//
+//        for(ProjectEntity project : projectList){
+//            ConfigureCatalogEntity parent = new ConfigureCatalogEntity() ;
+//            parent.setName(project.getName());
+//            parent.setId(project.getId());
+//
+//            list.add(parent) ;
+//        }
 
         return list ;
 
