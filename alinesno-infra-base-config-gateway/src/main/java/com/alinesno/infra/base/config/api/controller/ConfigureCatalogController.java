@@ -71,6 +71,10 @@ public class ConfigureCatalogController extends BaseController<ConfigureCatalogE
     @PostMapping("/insertCatalog")
     public AjaxResult insertCatalog(@RequestBody ConfigureCatalogEntity entity){
 
+        // 查询父类，获取到项目信息
+        ConfigureCatalogEntity parent = service.getById(entity.getParentId()) ;
+        entity.setProjectId(parent.getId());
+
         service.insertCatalog(entity) ;
 
         return AjaxResult.success("操作成功.") ;
