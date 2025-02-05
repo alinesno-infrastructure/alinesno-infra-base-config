@@ -2,21 +2,20 @@ package com.alinesno.infra.base.config.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alinesno.infra.base.config.api.dto.ConfigureContentDto;
-import com.alinesno.infra.base.config.entity.ConfigureEntity;
-import com.alinesno.infra.base.config.entity.ProjectConfigureEntity;
-import com.alinesno.infra.base.config.entity.ProjectEntity;
+import com.alinesno.infra.base.config.entity.*;
 import com.alinesno.infra.base.config.enums.ConfigTypeEnum;
 import com.alinesno.infra.base.config.mapper.ProjectMapper;
-import com.alinesno.infra.base.config.service.IConfigureService;
-import com.alinesno.infra.base.config.service.IProjectConfigureService;
-import com.alinesno.infra.base.config.service.IProjectService;
+import com.alinesno.infra.base.config.service.*;
 import com.alinesno.infra.base.config.utils.ContentTypeUtils;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import com.alinesno.infra.common.core.utils.StringUtils;
 import com.alinesno.infra.common.facade.enums.HasStatusEnums;
+import com.alinesno.infra.common.web.log.utils.SpringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +40,13 @@ public class ProjectServiceImpl extends IBaseServiceImpl<ProjectEntity, ProjectM
 	private IProjectConfigureService projectConfigureService ;
 
 	@Autowired
+	private IConfigEnvService envService ;
+
+	@Autowired
 	private IConfigureService configureService ;
 
 	@Override
 	public void saveDocumentType(String projectId, String documentStr) {
-
 		ProjectEntity e = getById(projectId) ;
 		update(e) ;
 	}
@@ -182,5 +183,84 @@ public class ProjectServiceImpl extends IBaseServiceImpl<ProjectEntity, ProjectM
         return projectConfigureService.list(wrapper);
 	}
 
+	@Override
+	public void saveProject(ProjectEntity entity) {
+
+		this.save(entity) ;
+
+		// 保存到配置分类里面（每个项目是一个类）
+		if(StringUtils.isNotEmpty(entity.getCode())) {
+
+			IConfigureCatalogService catalogService = SpringUtils.getBean(IConfigureCatalogService.class) ;
+
+			ConfigureCatalogEntity catalogEntity = new ConfigureCatalogEntity() ;
+			BeanUtils.copyProperties(entity, catalogEntity);
+
+			catalogEntity.setName(entity.getName());
+			catalogEntity.setDescription(entity.getRemark());
+			catalogEntity.setParentId(0L);
+			catalogEntity.setProjectId(entity.getId());
+
+			catalogService.save(catalogEntity) ;
+
+			initEnv(entity);
+		}
+	}
+
+	private void initEnv(ProjectEntity entity) {
+
+		LambdaQueryWrapper<ConfigEnvEntity> wrapper = new LambdaQueryWrapper<>() ;
+		wrapper.eq(ConfigEnvEntity::getOrgId , entity.getOrgId());
+		long count = envService.count(wrapper) ;
+
+		List<ConfigEnvEntity> environments = new ArrayList<>();
+
+		// 开发环境
+		ConfigEnvEntity devEnv = new ConfigEnvEntity();
+		devEnv.setName("开发环境");
+		devEnv.setCode("dev");
+		devEnv.setRemark("这是开发人员编写和测试代码的地方，通常每个开发者都有自己的本地开发环境。");
+		environments.add(devEnv);
+
+		// 测试环境
+		ConfigEnvEntity testEnv = new ConfigEnvEntity();
+		testEnv.setName("测试环境");
+		testEnv.setCode("test");
+		testEnv.setRemark("有时分为单元测试环境、集成测试环境和系统测试环境，用于确保代码符合功能和性能要求。");
+		environments.add(testEnv);
+
+		// 用户验收测试环境
+		ConfigEnvEntity uatEnv = new ConfigEnvEntity();
+		uatEnv.setName("用户验收测试环境");
+		uatEnv.setCode("uat");
+		uatEnv.setRemark("用户或客户在类似生产环境的条件下测试应用，确认功能满足业务需求。");
+		environments.add(uatEnv);
+
+		// 预生产环境
+		ConfigEnvEntity preEnv = new ConfigEnvEntity();
+		preEnv.setName("预生产环境");
+		preEnv.setCode("pre");
+		preEnv.setRemark("也被称为“暂存环境”，用于最终测试和演示即将发布的版本，确保其在生产环境中能正常工作。");
+		environments.add(preEnv);
+
+		// 生产环境
+		ConfigEnvEntity prodEnv = new ConfigEnvEntity();
+		prodEnv.setName("生产环境");
+		prodEnv.setCode("prod");
+		prodEnv.setRemark("正式对外提供服务的环境，应用程序在这里运行，供真实用户使用。");
+		environments.add(prodEnv);
+
+		if(count < environments.size()){
+
+			for(ConfigEnvEntity env : environments){
+				env.setOrgId(entity.getOrgId());
+				env.setOperatorId(entity.getOperatorId());
+				env.setDepartmentId(entity.getDepartmentId());
+			}
+
+			envService.remove(wrapper);
+			envService.saveBatch(environments);
+		}
+	}
 
 }
