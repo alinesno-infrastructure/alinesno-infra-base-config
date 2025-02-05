@@ -60,8 +60,8 @@
             </template>
          </el-table-column>
          <el-table-column prop="description" label="类型描述" ></el-table-column>
-         <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
-         <el-table-column prop="hasStatus" label="状态" width="100">
+         <el-table-column prop="orderNum" align="center" label="排序" width="200"></el-table-column>
+         <el-table-column prop="hasStatus" align="center" label="状态" width="100">
             <template #default="scope">
                <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />
             </template>
@@ -85,8 +85,8 @@
                   @click="handleAdd(scope.row)"
                   v-hasPermi="['system:dept:add']"
                >新增</el-button>
+                  <!-- v-if="scope.row.parentId != 0" -->
                <el-button
-                  v-if="scope.row.parentId != 0"
                   type="text"
                   icon="Delete"
                   @click="handleDelete(scope.row)"
@@ -100,20 +100,31 @@
       <el-dialog :title="title" v-model="open" width="600px" append-to-body>
          <el-form ref="deptRef" :model="form" :rules="rules" label-width="80px">
             <el-row>
+
+               <!-- 
                <el-col :span="24">
                   <el-form-item label="所属项目" prop="projectId">
-                     <el-option
-                        v-for="item in projectList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                     <el-select
+                        v-model="form.projectId"
+                        clearable
+                        placeholder="请选择项目..."
+                        style="width: 100%">
+                        <el-option
+                           v-for="item in projectList"
+                           :key="item.id"
+                           :label="item.name"
+                           :value="item.id"
                         />
+                     </el-select>
                   </el-form-item>
-               </el-col>   
+               </el-col>    
+               -->
+
                <el-col :span="24" v-if="form.parentId !== 0">
                   <el-form-item label="上级分类" prop="parentId">
                      <el-tree-select
                         v-model="form.parentId"
+                        clearable
                         :data="deptOptions"
                         :props="{ value: 'id', label: 'name', children: 'children' }"
                         value-key="id"
@@ -174,7 +185,7 @@ const loading = ref(true);
 const showSearch = ref(true);
 const title = ref("");
 const deptOptions = ref([]);
-const isExpandAll = ref(true);
+const isExpandAll = ref(false);
 const refreshTable = ref(true);
 
 const data = reactive({
@@ -184,6 +195,7 @@ const data = reactive({
     hasStatus: undefined
   },
   rules: {
+    projectId: [{ required: true, message: "所属项目不能为空", trigger: "blur" }],
     parentId: [{ required: true, message: "上级分类不能为空", trigger: "blur" }],
     name: [{ required: true, message: "分类名称不能为空", trigger: "blur" }],
     orderNum: [{ required: true, message: "显示排序不能为空", trigger: "blur" }],
