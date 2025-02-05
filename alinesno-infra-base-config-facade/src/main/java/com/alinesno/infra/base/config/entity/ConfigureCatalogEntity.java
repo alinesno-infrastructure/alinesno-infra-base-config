@@ -68,6 +68,12 @@ public class ConfigureCatalogEntity extends InfraBaseEntity {
 	@ColumnComment("父类ID")
 	private Long parentId;
 
+	@Excel(name="项目ID")
+	@TableField("project_id")
+	@ColumnType(length=32)
+	@ColumnComment("项目ID")
+	private Long projectId ;
+
 	/** 子类型 */
 	@TableField(exist = false)
 	private List<ConfigureCatalogEntity> children = new ArrayList<>();
