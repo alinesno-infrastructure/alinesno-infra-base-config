@@ -21,7 +21,6 @@
                   ref="deptTreeRef"
                   node-key="id"
                   highlight-current
-                  default-expand-all
                   @node-click="handleNodeClick"
                />
             </div>
@@ -155,6 +154,8 @@
       <!-- 添加或修改应用配置对话框 -->
       <el-dialog :title="title" v-model="open" width="900px" append-to-body>
          <el-form :model="form" :rules="rules" ref="databaseRef" label-width="100px">
+
+            <!--
             <el-row>
                <el-col :span="24">
                   <el-form-item label="所属项目" prop="projectId">
@@ -169,9 +170,24 @@
                   </el-form-item>
                </el-col>
             </el-row>
+            -->
+
             <el-row>
+              <el-col :span="24">
+               <el-form-item label="类型" prop="icon">
+                  <el-radio-group v-model="form.type">
+                     <el-radio v-for="item in configTypeList"
+                        :value="item.type"
+                        :key="item.type"
+                        :label="item.name"
+                        >
+                        <i :class="item.icon"></i> {{ item.name }}
+                     </el-radio>
+                     </el-radio-group>
+                  </el-form-item>
+              </el-col>   
                <el-col :span="24">
-                  <el-form-item style="width: 100%;" label="类型" prop="catalogId">
+                  <el-form-item style="width: 100%;" label="分类" prop="catalogId">
                      <el-tree-select
                         v-model="form.catalogId"
                         :data="deptOptions"
@@ -290,14 +306,21 @@ const data = reactive({
    rules: {
       projectId: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
       env: [{ required: true, message: "连接不能为空", trigger: "blur" }],
-      type: [{ required: true, message: "类型不能为空", trigger: "blur" }] , 
-      contents: [{ required: true , message: "用户名不能为空", trigger: "blur"}],
+      type: [{ required: true, message: "类型不能为空", trigger: "blur" }],
+      catalogId: [{ required: true, message: "分类不能为空", trigger: "blur" }] , 
+      name: [{ required: true, message: "名称不能为空", trigger: "blur" }] , 
       remarks: [{ required: true, message: "密码不能为空", trigger: "blur" }] , 
-      identity: [{ required: true, message: "备注不能为空", trigger: "blur" }] 
    }
 });
 
 const { queryParams, form, rules } = toRefs(data);
+
+const configTypeList = ref([
+  { id: 1, icon: 'fa-solid fa-charging-station' , 'name': 'yaml'} ,
+  { id: 1, icon: 'fa-solid fa-truck' , 'name': 'properties'} ,
+  { id: 2, icon: 'fa-solid fa-paper-plane' , 'name':'json'} ,
+  { id: 9, icon: 'fa-solid fa-user-tie' , 'name':'xml'},
+]);
 
 /** 查询应用列表 */
 function getList() {
