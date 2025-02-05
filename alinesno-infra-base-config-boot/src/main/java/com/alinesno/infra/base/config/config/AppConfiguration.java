@@ -1,12 +1,11 @@
 package com.alinesno.infra.base.config.config;
 
-import com.alinesno.infra.base.config.service.IInitDataService;
 import com.alinesno.infra.common.facade.enable.EnableActable;
 import com.alinesno.infra.common.web.adapter.sso.enable.EnableInfraSsoApi;
 import com.alinesno.infra.common.web.log.aspect.LogAspect;
 import com.dtflys.forest.springboot.annotation.ForestScan;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 配置中心
  */
+@Slf4j
 @EnableActable
 @EnableInfraSsoApi
 @MapperScan("com.alinesno.infra.base.config.mapper")
@@ -28,9 +28,6 @@ import org.springframework.context.annotation.Configuration;
 })
 public class AppConfiguration implements CommandLineRunner {
 
-    @Autowired
-    private IInitDataService initDataService ;
-
     @Bean
     public LogAspect getLogAspect(){
         return new LogAspect() ;
@@ -38,7 +35,7 @@ public class AppConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       initDataService.initEnv(0L);
-       initDataService.initCatalog(0L);
+        log.debug("初始化配置中心数据.....");
     }
+
 }
