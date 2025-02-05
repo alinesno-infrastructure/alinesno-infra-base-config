@@ -70,8 +70,11 @@ public class ProjectController extends BaseController<ProjectEntity, IProjectSer
     @Override
     public AjaxResult save(Model model, @RequestBody ProjectEntity entity) throws Exception {
         entity.setCode(IdUtil.nanoId(8));
+
         log.debug("project info = {}" , entity);
-        return super.save(model, entity);
+        service.saveProject(entity);
+
+        return ok() ;
     }
 
     /**
