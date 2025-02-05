@@ -2,6 +2,7 @@ package com.alinesno.infra.base.config.entity;
 
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 @TableName("configure")
+@Table(comment = "应用配置管理")
 @Data
 public class ConfigureEntity extends InfraBaseEntity {
 	
