@@ -22,8 +22,7 @@ spring:
 
 actable:
   table:
-#    auto: update
-    auto: create
+    auto: update
   model:
     pack: com.alinesno.infra.base.config.entity;
   database:
