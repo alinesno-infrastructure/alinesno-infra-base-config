@@ -76,6 +76,7 @@
                   </template>
                </el-table-column>
 
+              <!-- 
               <el-table-column label="是否启用" align="center" width="100" key="hasStatus" prop="hasStatus" v-if="columns[1].visible" :show-overflow-tooltip="true" >
                  <template #default="scope">
                     <el-switch
@@ -85,7 +86,8 @@
                        @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
                     />
                  </template>
-              </el-table-column>
+              </el-table-column> 
+              -->
 
                <el-table-column label="添加时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
                   <template #default="scope">
