@@ -149,7 +149,7 @@ const acpProjectBuild = [
 
 const screenJsonList = [
   {
-    "addTime": "2023-05-02 05:15:12",
+    "addTime": "2025-05-02 05:15:12",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 7,
@@ -165,7 +165,7 @@ const screenJsonList = [
         "addTime": "2021-07-23 04:56:11",
       },
       {
-        "addTime": "2023-02-15 15:01:56",
+        "addTime": "2025-02-15 15:01:56",
       },
       {
         "addTime": "2022-12-21 14:53:10",
@@ -174,7 +174,7 @@ const screenJsonList = [
         "addTime": "2021-07-23 04:55:48",
       },
       {
-        "addTime": "2023-03-16 16:49:16",
+        "addTime": "2025-03-16 16:49:16",
       },
       {
         "addTime": "2021-07-23 04:56:23",
@@ -182,7 +182,7 @@ const screenJsonList = [
     ],
   },
   {
-    "addTime": "2023-05-02 05:13:58",
+    "addTime": "2025-05-02 05:13:58",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 3,
@@ -304,7 +304,7 @@ const screenJsonList = [
     "status": "1"
   },
   {
-    "addTime": "2023-05-02 05:14:31",
+    "addTime": "2025-05-02 05:14:31",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 7,
@@ -378,7 +378,7 @@ const screenJsonList = [
         "shortName": null
       },
       {
-        "addTime": "2023-02-15 14:59:52",
+        "addTime": "2025-02-15 14:59:52",
         "departmentId": null,
         "sortNumber": 1,
         "hasStatus": 0,
@@ -554,7 +554,7 @@ const screenJsonList = [
     "status": "1"
   },
   {
-    "addTime": "2023-05-02 05:16:34",
+    "addTime": "2025-05-02 05:16:34",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 2,
@@ -596,7 +596,7 @@ const screenJsonList = [
         "shortName": null
       },
       {
-        "addTime": "2023-03-12 06:40:45",
+        "addTime": "2025-03-12 06:40:45",
         "departmentId": null,
         "sortNumber": 1,
         "hasStatus": 0,
@@ -644,7 +644,7 @@ const screenJsonList = [
     "status": "1"
   },
   {
-    "addTime": "2023-05-02 05:15:53",
+    "addTime": "2025-05-02 05:15:53",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 3,
@@ -654,7 +654,7 @@ const screenJsonList = [
     "title": "自动运维治理套件",
     "productItem": [
       {
-        "addTime": "2023-03-05 02:59:31",
+        "addTime": "2025-03-05 02:59:31",
         "departmentId": null,
         "sortNumber": 1,
         "hasStatus": 0,
@@ -766,7 +766,7 @@ const screenJsonList = [
     "status": "1"
   },
   {
-    "addTime": "2023-05-02 05:15:31",
+    "addTime": "2025-05-02 05:15:31",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 1,
@@ -776,7 +776,7 @@ const screenJsonList = [
     "title": "容器云运营套件",
     "productItem": [
       {
-        "addTime": "2023-04-01 16:25:17",
+        "addTime": "2025-04-01 16:25:17",
         "departmentId": null,
         "sortNumber": 1,
         "hasStatus": 0,
@@ -824,7 +824,7 @@ const screenJsonList = [
     "status": "1"
   },
   {
-    "addTime": "2023-05-02 05:16:17",
+    "addTime": "2025-05-02 05:16:17",
     "departmentId": null,
     "lastUpdateOperatorId": null,
     "usage": 2,
@@ -866,7 +866,7 @@ const screenJsonList = [
         "shortName": null
       },
       {
-        "addTime": "2023-05-01 22:00:45",
+        "addTime": "2025-05-01 22:00:45",
         "departmentId": null,
         "sortNumber": 1,
         "hasStatus": 0,
