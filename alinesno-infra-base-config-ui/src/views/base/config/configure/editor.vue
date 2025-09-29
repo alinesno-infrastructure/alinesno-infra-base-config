@@ -1,41 +1,53 @@
 <template>
   <!--
     配置 功能列表
- 
-    @author 苏泽 ${authorEmail}
-    @date 2023-05-25 10:48:57
+    @author LuoXiaoDong ${authorEmail}
+    @date 2025-05-25 10:48:57
   -->
-  <div class="app-container">
+  <div>
  
-    <el-page-header @back="goBack" :content="title"></el-page-header>
- 
-    <el-form ref="databaseRef" :model="form" :rules="rules" label-width="120px" style="margin-top:30px"  label-position="left">
-          <el-form-item label="配置名称" prop="name" style="width: 40%">
+    <el-form ref="databaseRef" 
+        :model="form" size="large" 
+        :rules="rules" 
+        label-width="80px" 
+        style="margin-top:10px"  
+        label-position="right">
+      <el-row> 
+        <el-col :span="8">
+          <el-form-item label="配置名称" prop="name" style="width: 100%">
             <el-input v-model="form.name" disabled placeholder="请输入配置名称" style="width: 500px"/>
           </el-form-item>
-          <el-form-item label="配置标识" prop="identity" style="width: 45%">
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="配置标识" prop="identity" style="width: 100%">
             <el-input v-model="form.identity" disabled placeholder="请输入配置标识" style="width: 500px"/>
           </el-form-item>
+        </el-col>
+        <el-col :span="6">
         <el-form-item label="导入配置文件" label-width="102px">
             <el-upload action="#" :before-upload="handleFileUpload">
               <el-button>上传文件</el-button>
             </el-upload>
           </el-form-item>
+        </el-col>
+        <el-col :span="2">
+          <el-form-item label-width="0px">
+            <el-button type="primary" @click="submitForm" icon="Upload">保存配置</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
  
-        <el-form-item label="配置内容" label-width="102px">
+        <el-form-item label="配置内容">
           <div class="cm-container">
             <code-mirror 
               basic 
               :lang="lang" 
               v-model="codeVal" 
-              style="height: 400px;" 
+              style="height: calc(100vh - 180px);" 
               :theme="theme"
               :extensions="extensions" />
           </div>
         </el-form-item>
-      <el-form-item label-width="0px" style="margin-top:20px;">
-        <el-button type="primary" @click="submitForm" icon="Upload">保存配置</el-button>
-      </el-form-item>
     </el-form>
  
   </div>
@@ -63,6 +75,8 @@ const configId = router.currentRoute.value.params.configId ;
 
 // 初始化
 let codeVal = ref('');
+
+const title = '编辑配置中心'
 const lang = yaml() ; // json();
 
 // 扩展
@@ -70,25 +84,25 @@ const extensions = [oneDark];
 
 // 主题样式设置
 const theme = {
-  "&": {
-    fontSize: "9.5pt",
-    color: "white",
-    backgroundColor: "#034"
-  },
-  ".cm-content": {
-    caretColor: "#0e9"
-  },
-  "&.cm-focused .cm-cursor": {
-    borderLeftColor: "#0e9"
-  },
-  "&.cm-focused .cm-selectionBackground, ::selection": {
-    backgroundColor: "#074"
-  },
-  ".cm-gutters": {
-    backgroundColor: "#045",
-    color: "#ddd",
-    border: "none"
-  }
+  // "&": {
+    // fontSize: "10.5pt",
+    // color: "white",
+    // backgroundColor: "#034"
+  // },
+  // ".cm-content": {
+  //   caretColor: "#0e9"
+  // },
+  // "&.cm-focused .cm-cursor": {
+  //   borderLeftColor: "#0e9"
+  // },
+  // "&.cm-focused .cm-selectionBackground, ::selection": {
+  //   backgroundColor: "#074"
+  // },
+  // ".cm-gutters": {
+  //   backgroundColor: "#045",
+  //   color: "#ddd",
+  //   border: "none"
+  // }
 }
 
 const data = reactive({
@@ -116,19 +130,19 @@ function goBack() {
 }
 
 /** 应用启动环境 */
-onMounted(() => {
-  console.log('configId= ' + configId) ;
-  getConfigContent(configId).then(res => {
-    console.log('res = ' + res);
-    form.value = res.data ;
+// onMounted(() => {
+//   console.log('configId= ' + configId) ;
+//   getConfigContent(configId).then(res => {
+//     console.log('res = ' + res);
+//     form.value = res.data ;
 
-    // codeVal.value = JSON.stringify(res.data.contents , null, '\t') ;
+//     // codeVal.value = JSON.stringify(res.data.contents , null, '\t') ;
 
-    codeVal.value = res.data.contents ; 
+//     codeVal.value = res.data.contents ; 
 
-    console.log('--->>>> identity = ' + form.value.identity);
-  })
-});
+//     console.log('--->>>> identity = ' + form.value.identity);
+//   })
+// });
 
 /** 提交按钮 */
 function submitForm() {
@@ -142,15 +156,31 @@ function submitForm() {
    });
 };
 
+const setConfigure = (configure) => {
+  form.value = configure ;
+  codeVal.value = configure.contents ;
+}
+
+// 提供对外的方法
+defineExpose({
+  setConfigure
+})
+
 </script>
+
 
 <style >
 /* required! */
 .cm-editor {
   height: 100%;
+  border-radius: 10px;
 }
 
 .cm-container{
   width:100%;
+}
+
+.cm-scroller{
+  border-radius: 10px;
 }
 </style>
