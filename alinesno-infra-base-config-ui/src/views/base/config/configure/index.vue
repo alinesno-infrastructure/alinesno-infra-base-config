@@ -25,14 +25,14 @@
                />
             </div>
          </el-col>
-         <!--应用数据-->
+         <!--配置数据-->
          <el-col :span="20" :xs="24">
             <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="100px">
-               <el-form-item label="应用名称" prop="projectId">
-                  <el-input v-model="queryParams.projectId" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+               <el-form-item label="配置名称" prop="projectId">
+                  <el-input v-model="queryParams.projectId" placeholder="请输入配置名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
                </el-form-item>
-               <el-form-item label="应用名称" prop="projectId">
-                  <el-input v-model="queryParams['condition[projectId|like]']" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
+               <el-form-item label="配置名称" prop="projectId">
+                  <el-input v-model="queryParams['condition[projectId|like]']" placeholder="请输入配置名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
                </el-form-item>
                <el-form-item>
                   <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -67,7 +67,7 @@
               </el-table-column>
 
                <!-- 业务字段-->
-               <el-table-column label="应用名称" align="left" key="projectId" prop="projectId" v-if="columns[0].visible" >
+               <el-table-column label="配置名称" align="left" key="projectId" prop="projectId" v-if="columns[0].visible" >
                   <template #default="scope">
                      <div>
                         {{ scope.row.name }}
@@ -90,12 +90,20 @@
 
                <el-table-column label="所属环境" align="left" key="remarks" prop="remarks" v-if="columns[2].visible" :show-overflow-tooltip="true">
                   <template #default="scope">
-                     <el-button type="primary" bg text> <i class="fa-brands fa-shopify"></i> {{ scope.row.env }}</el-button>
+                     <el-button type="primary" bg text> <i class="fa-brands fa-shopify"></i> &nbsp; {{ scope.row.env }}</el-button>
                   </template>
                </el-table-column>
 
                <el-table-column label="配置类型" align="center" key="type" prop="type" v-if="columns[4].visible" :show-overflow-tooltip="true">
                      <template #default="scope">
+
+                        <div style="margin-top: 5px;">
+                           <el-button type="primary" bg text> 
+                              <i :class="getConfigureType(scope.row.type)?.icon"></i> &nbsp; {{ getConfigureType(scope.row.type)?.name }}
+                           </el-button>
+                        </div>
+
+                        <!-- 
                         <div style="margin-top: 5px;" v-if="scope.row.type == 1">
                            <el-button type="primary" bg text> <i class="fa-solid fa-credit-card"></i> Properties</el-button>
                         </div>
@@ -107,7 +115,8 @@
                         </div>
                         <div style="margin-top: 5px;" v-if="scope.row.type == 0">
                            <el-button type="danger" bg text> <i class="fa-solid fa-lemon"></i> 未配置</el-button>
-                        </div>
+                        </div> 
+                        -->
                      </template>
                   </el-table-column>
 
@@ -151,9 +160,9 @@
          </el-col>
       </el-row>
 
-      <!-- 添加或修改应用配置对话框 -->
+      <!-- 添加或修改配置配置对话框 -->
       <el-dialog :title="title" v-model="open" width="900px" append-to-body>
-         <el-form :model="form" :rules="rules" ref="databaseRef" label-width="100px">
+         <el-form :model="form" :rules="rules" size="large" ref="databaseRef" label-width="100px">
 
             <!--
             <el-row>
@@ -177,10 +186,9 @@
                <el-form-item label="类型" prop="icon">
                   <el-radio-group v-model="form.type">
                      <el-radio v-for="item in configTypeList"
-                        :value="item.type"
-                        :key="item.type"
-                        :label="item.name"
-                        >
+                        :value="item.id"
+                        :key="item.id"
+                        :label="item.name">
                         <i :class="item.icon"></i> {{ item.name }}
                      </el-radio>
                      </el-radio-group>
@@ -208,7 +216,9 @@
                               :key="item.code"
                               :label="item.name"
                               :value="item.code"
-                              ></el-option>
+                              >
+                              {{ item.name }}({{ item.code }})
+                           </el-option>
                      </el-select>
                   </el-form-item>
                </el-col>
@@ -235,10 +245,11 @@
       </el-dialog>
 
       <!-- 添加或修改指令配置对话框 -->
-      <el-dialog :title="promptTitle" v-model="promptOpen" width="1024" destroy-on-close append-to-body>
-
-         <ContentEditor :currentPostId="currentPostId" :currentPromptContent="currentPromptContent" />
-
+      <el-dialog :title="promptTitle" v-model="promptOpen" width="1024" destroy-on-close append-to-body fullscreen>
+         <ContentEditor 
+            ref="editorRef"
+            :currentPostId="currentPostId" 
+            :currentPromptContent="currentPromptContent" />
       </el-dialog>
 
    </div>
@@ -258,9 +269,12 @@ import {
 } from "@/api/base/config/configure";
 
 import ContentEditor from "./editor.vue"
+import { nextTick } from "vue";
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
+
+const editorRef = ref(null);
 
 // 定义变量
 const ConfigureList = ref([]);
@@ -286,11 +300,11 @@ const promptOpen = ref(false);
 
 // 列显隐信息
 const columns = ref([
-   { key: 0, label: `应用名称`, visible: true },
-   { key: 1, label: `应用描述`, visible: true },
+   { key: 0, label: `配置名称`, visible: true },
+   { key: 1, label: `配置描述`, visible: true },
    { key: 2, label: `表数据量`, visible: true },
    { key: 3, label: `类型`, visible: true },
-   { key: 4, label: `应用地址`, visible: true },
+   { key: 4, label: `配置地址`, visible: true },
    { key: 5, label: `状态`, visible: true },
    { key: 6, label: `更新时间`, visible: true }
 ]);
@@ -316,13 +330,20 @@ const data = reactive({
 const { queryParams, form, rules } = toRefs(data);
 
 const configTypeList = ref([
-  { id: 1, icon: 'fa-solid fa-charging-station' , 'name': 'yaml'} ,
-  { id: 1, icon: 'fa-solid fa-truck' , 'name': 'properties'} ,
-  { id: 2, icon: 'fa-solid fa-paper-plane' , 'name':'json'} ,
-  { id: 9, icon: 'fa-solid fa-user-tie' , 'name':'xml'},
+  { id: 1, icon: 'fa-solid fa-file-code' , 'name': 'Yaml'},  // 文件代码图标适合YAML
+  { id: 2, icon: 'fa-solid fa-file-lines' , 'name': 'Properties'},  // 多行文件图标适合Properties
+  { id: 3, icon: 'fa-solid fa-file-code' , 'name':'Json'},  // 代码文件图标适合JSON
+  { id: 4, icon: 'fa-solid fa-code' , 'name':'XML'},  // 代码图标适合XML
 ]);
 
-/** 查询应用列表 */
+/**
+ * 获取配置类型
+ */
+const getConfigureType = (typeId) => {
+   return configTypeList.value.find(item => item.id === typeId) || {};
+}
+
+/** 查询配置列表 */
 function getList() {
    loading.value = true;
 
@@ -360,7 +381,7 @@ function resetQuery() {
 /** 删除按钮操作 */
 function handleDelete(row) {
    const idList = row.id || ids.value;
-   proxy.$modal.confirm('是否确认删除应用编号为"' + idList + '"的数据项？').then(function () {
+   proxy.$modal.confirm('是否确认删除配置编号为"' + idList + '"的数据项？').then(function () {
       return delConfigure(idList);
    }).then(() => {
       getList();
@@ -399,7 +420,7 @@ function cancel() {
 function handleAdd() {
    reset();
    open.value = true;
-   title.value = "添加应用";
+   title.value = "添加配置";
 };
 
 /** 修改状态 */
@@ -423,7 +444,7 @@ function handleUpdate(row) {
    getConfigure(id).then(response => {
       form.value = response.data;
       open.value = true;
-      title.value = "修改应用";
+      title.value = "修改配置";
    });
 };
 
@@ -462,15 +483,21 @@ function handleEnvNameById(envId){
 /** 修改配置信息 */
 function editContent(row){
 
-   // promptTitle.value = "配置角色Prompt";
-   // promptOpen.value = true ;
-   // currentPostId.value = row.id;
+   promptTitle.value = row.name + ' 配置信息';
+   promptOpen.value = true ;
+   currentPostId.value = row.id;
 
-   // if(row.promptContent){
-   //    currentPromptContent.value = JSON.parse(row.promptContent);
-   // }
+   if(row.promptContent){
+      currentPromptContent.value = JSON.parse(row.promptContent);
+   }
 
-  router.push({ path: "/base/config/configure/edit/" + row.id });
+   nextTick(() => {
+      if(editorRef.value){
+         editorRef.value.setConfigure(row);
+      }
+   })
+
+//   router.push({ path: "/base/config/configure/edit/" + row.id });
 }
 
 /** 查询类型下拉树结构 */
