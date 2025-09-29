@@ -9,6 +9,8 @@
                @keyup.enter="handleQuery"
             />
          </el-form-item>
+
+         <!-- 
          <el-form-item label="状态" prop="hasStatus">
             <el-select v-model="queryParams.hasStatus" placeholder="分类状态" clearable>
                <el-option
@@ -18,7 +20,9 @@
                   :value="dict.value"
                />
             </el-select>
-         </el-form-item>
+         </el-form-item> 
+         -->
+
          <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
             <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -61,11 +65,13 @@
          </el-table-column>
          <el-table-column prop="description" label="类型描述" ></el-table-column>
          <el-table-column prop="orderNum" align="center" label="排序" width="200"></el-table-column>
+         <!-- 
          <el-table-column prop="hasStatus" align="center" label="状态" width="100">
             <template #default="scope">
                <dict-tag :options="sys_normal_disable" :value="scope.row.hasStatus" />
             </template>
-         </el-table-column>
+         </el-table-column> 
+         -->
          <el-table-column label="创建时间" align="center" prop="createTime" width="200">
             <template #default="scope">
                <span>{{ parseTime(scope.row.addTime) }}</span>
@@ -148,6 +154,7 @@
                      <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
                   </el-form-item>
                </el-col>
+               <!-- 
                <el-col :span="24">
                   <el-form-item label="分类状态">
                      <el-radio-group v-model="form.hasStatus">
@@ -158,7 +165,8 @@
                         >{{ dict.label }}</el-radio>
                      </el-radio-group>
                   </el-form-item>
-               </el-col>
+               </el-col> 
+               -->
             </el-row>
          </el-form>
          <template #footer>
