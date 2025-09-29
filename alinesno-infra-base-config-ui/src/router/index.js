@@ -78,12 +78,12 @@ export const constantRoutes = [
         name: '/dashboard/suportTechnique',
         meta: { title: '支持管理', icon: 'dashboard', affix: true }
       },
-      {
-        path: '/dashboard/learnPanel',
-        component: () => import('@/views/learnPanel'),
-        name: '/dashboard/learnPanel',
-        meta: { title: '学习手册', icon: 'dashboard', affix: true }
-      },
+      // {
+      //   path: '/dashboard/learnPanel',
+      //   component: () => import('@/views/learnPanel'),
+      //   name: '/dashboard/learnPanel',
+      //   meta: { title: '学习手册', icon: 'dashboard', affix: true }
+      // },
 
       // >>>>>>>>>>>>>> config_router_start >>>>>>>>>>>>>>>>>>>>>
       {
